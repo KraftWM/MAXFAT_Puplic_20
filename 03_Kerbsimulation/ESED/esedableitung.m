@@ -1,5 +1,6 @@
 function [G, P] = esedableitung(SIG,EPS,...
                                   REFSIG,REFEPS)
+% was macht Funktion?
 
 % =====================================================================
 % P

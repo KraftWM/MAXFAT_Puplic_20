@@ -7,7 +7,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function dX = CoderVersion_ESZ_OhnoWangLang(~, X, M, eM, desig, para, epara, CEL, DEL, ...
                         P, P_line, P_hat, A, P_check)
-% Inkrements des System von DGL fürs Ohno Wang Modell mit den Ansatz von Lang
+% Inkremente des System von DGLs fürs Ohno Wang Modell mit den Ansatz von Lang
 %
 % INPUT:
 %      ~       -> Zeit wird hier nicht gebraucht, aber wird von ode solver
@@ -16,7 +16,7 @@ function dX = CoderVersion_ESZ_OhnoWangLang(~, X, M, eM, desig, para, epara, CEL
 %                 Backstresstensoren 
 %  para       -> Speicher für Material- und Struckturparameter
 %                 begrenzt auf 20 Backstresstensoren
-%  desig       -> inkrement des pseudospannungstensors
+%  desig       -> Inkrement des pseudospannungstensors
 % CEL,DEL      -> Elastische Steifigkeit und Nachgiebigkeit   
 % P, P_line... -> Diverse Abbildungen
 %
@@ -134,19 +134,19 @@ end
 dea_dp = sum(dealphai_dp,2);
 
 %--------------------------------------------------------------------------
-%                  plastischer tangentenmodul                   
+%                  plastischer Tangentenmodul                   
 %--------------------------------------------------------------------------
 
 eh = transen * P_check * dea_dp;
 
 %--------------------------------------------------------------------------
-%                  inkrement plastische Bogenlänge                   
+%                  Inkrement plastische Bogenlänge                   
 %--------------------------------------------------------------------------
 
 dp = (transen * desig)/eh;
 
 %--------------------------------------------------------------------------
-%                  inkremente der zustandsvariablen                  
+%                  Inkremente der Zustandsvariablen                  
 %--------------------------------------------------------------------------
 depsp = en .* dp;
 deeps = depsp + DEL * desig;

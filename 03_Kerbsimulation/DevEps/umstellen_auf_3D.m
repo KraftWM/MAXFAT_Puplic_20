@@ -1,21 +1,21 @@
 function [ZVAR3D] = umstellen_auf_3D(ZVAR,material,M,nu,flag)
-% Funktion erhält Zustandsvariablen im ESZ und stellt sie um auf 3D zustand
-% (nötig für DevEps ansatz)
+% Funktion erhï¿½lt Zustandsvariablen im ESZ und stellt sie um auf 3D zustand
+% (nï¿½tig fï¿½r DevEps ansatz)
 %
 % (dehnungsgesteuertes) Werkstoffmodell wird auf 3D Modell
-% umgestellt (nur fürn ESZ)
-% (spannungsgesteuertes) Struckturmodell wird auf 3D Modell
-% umgestellt (nur fürn ESZ)
+% umgestellt (nur fï¿½rn ESZ)
+% (spannungsgesteuertes) Strukturmodell wird auf 3D Modell
+% umgestellt (nur fï¿½rn ESZ)
 %
 % INPUT:
 % ZVAR             - Zustandsvariablen Materialmodell im ESZ
-% material         - Name des Plastizitätsmodells
+% material         - Name des Plastizitï¿½tsmodells
 % M                - Anzahl der Backstresstensoren  
 % nu               - Querdehnzahl
 % flag             - 0 Spannungssteuerung 1 Dehnungssteurung
 %
 % OUTPUT:
-% ZVAR3D            - Zustandsvariablen für 3D
+% ZVAR3D            - Zustandsvariablen fï¿½r 3D
 %
 %__________________________________________________________________________
 
@@ -38,7 +38,7 @@ switch material
     case 'OWT'
         numzvar = (3+M+(6+1)/2)*6+4;
     case 'Doring'
-        msg = 'Döring Modell hier noch net implementiert';
+        msg = 'Dï¿½ring Modell hier noch nicht implementiert';
         error(msg)       
     otherwise        
         msg = ['Angegebenes Materialmodell, ',material,', nicht implementiert'];
@@ -82,30 +82,30 @@ switch material
         % radius FF
         ZVAR3D(end-1,:) = ZVAR(end-1);
         
-        % plastische Bogenlänge
+        % plastische Bogenlï¿½nge
         ZVAR3D(end,:) = ZVAR(end,:);               
         
     case 'OhnoWang'        
-        % plastische Bogenlänge
+        % plastische Bogenlï¿½nge
         ZVAR3D(end,:) = ZVAR(end,:);
     
     case 'KarimOhno'
-        % plastische Bogenlänge
+        % plastische Bogenlï¿½nge
         ZVAR3D(end,:) = ZVAR(end,:);
         
     case 'Jiang'       
-        % plastische Bogenlänge
+        % plastische Bogenlï¿½nge
         ZVAR3D(end-1,:) = ZVAR(end-1);
         
-        % radius gedächtnissfläche
+        % radius gedï¿½chtnissflï¿½che
         ZVAR3D(end,:) = ZVAR(end,:);
         
     case 'OWT'
                 
-        % plastische Bogenlänge
+        % plastische Bogenlï¿½nge
         ZVAR3D((2+M)*6+1,:) = ZVAR((2+M)*ntens+1,:);
         
-        % Zusätzlicher FF Radius
+        % Zusï¿½tzlicher FF Radius
         ZVAR3D((2+M)*6+2,:) = ZVAR((2+M)*ntens+2,:);
         
         % Backstraintensor
@@ -114,7 +114,7 @@ switch material
         bzz = -B(1,:) - B(2,:);
         ZVAR3D([idx idx+1 idx+2 idx+3],:) = [B(1,:);B(2,:);bzz;B(3,:)];
         
-        % Radius gedächtnissfläche
+        % Radius gedï¿½chtnissflï¿½che
         ZVAR3D((3+M)*6+3,:) = ZVAR((3+M)*ntens+3,:);
         
         % NP Parameter
@@ -127,7 +127,7 @@ switch material
                 
     case 'Doring'
         
-        msg = 'Döring Modell hier noch net implementiert';
+        msg = 'Dï¿½ring Modell hier noch nicht implementiert';
         error(msg)        
         
     otherwise

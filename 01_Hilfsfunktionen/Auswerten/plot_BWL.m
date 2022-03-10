@@ -1,5 +1,5 @@
 function ax = plot_BWL(ax,N,Amp,messflag,titleName,legendentry,YAxisLabel,varargin)
-% Plotet Bauteilwöhlerlinie
+% Plottet Bauteilwöhlerlinie
 % INPUT:
 % ax          - axis handle
 % Nexp        - Experimentelle Ergebnisse

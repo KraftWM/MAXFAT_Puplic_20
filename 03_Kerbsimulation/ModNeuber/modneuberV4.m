@@ -2,33 +2,33 @@ function [ZVAR0,REF] = modneuberV4( ...
                                    ZVAR0, REF0, para, esigpath, DEL, ...
                                    ntens, ndi, material, numink,...
                                    Outfile)
-% Implentation einer Modifizierten Neuber Methode für Mehrachsige
-% Kerbnäherungsverfahren.
+% Implentation einer Modifizierten Neuber Methode fï¿½r mehrachsige
+% Kerbnï¿½herungsverfahren.
 %
-% Idee, kombiniere Neuber mit Nebenbedingung für Umfangsspannung aus 
+% Idee, kombiniere Neuber mit Nebenbedingung fï¿½r Umfangsspannung aus 
 %       Hoffmannverfahren 
 %
-%  !!!!!!!  Implementierung für explizite Integration an normalen Punkten 
+%  !!!!!!!  Implementierung fï¿½r explizite Integration an normalen Punkten 
 %           und implizite integration an umkehrpunkten             
 %  !!!!!!!
 %
 % INPUT:
-% ZVAR0     -> Startwerte der Zustandsvariablen, Zustandsvariblen für die
+% ZVAR0     -> Startwerte der Zustandsvariablen, Zustandsvariblen fï¿½r die
 %              Materialmodelle wie bei dehnungsgesteuerter integration
-% REF0      -> Startwerte der Referenzzustände
+% REF0      -> Startwerte der Referenzzustï¿½nde
 % para      -> Parameter Materialmodel
-% esigpath  -> Verweiß auf Datei mit verlauf der lokalen pseudo
+% esigpath  -> Verweiï¿½ auf Datei mit verlauf der lokalen pseudo
 %              Spannungen
-% DEL       -> Elastischer Nachgibigkeitstensor
+% DEL       -> Elastischer Nachgiebigkeitstensor
 % ntens     -> Anzahl Tensorkomponenten
 % ndi       -> Anzahl Hauptdiagonalelemente
 % material  -> Definiert welches Materialmodell verwendet wird
-% numink    -> Anzahl inkremente der Lastfolge
+% numink    -> Anzahl Inkremente der Lastfolge
 % Outfile   -> Name der Datei in der die Ergebnisse geschrieben werden
 %
 % OUTPUT:
 % ZVAR1  -> Zustandsvariablen am Ende
-% REF1   -> Referenzzustände am Ende
+% REF1   -> Referenzzustï¿½nde am Ende
 %
 % ------------------------------------------------------------------------
 % Autor: Jan Kraft                                                        |
@@ -38,21 +38,21 @@ function [ZVAR0,REF] = modneuberV4( ...
 
 
 % -------------------------------------------------------------------------
-% Prüfe ob ebener Spannungszustand
+% Prï¿½fe ob ebener Spannungszustand
 if ntens ~= 3 && ndi ~= 2
-    msg = 'Verfahren akt. nur für ESZ gedacht';
+    msg = 'Verfahren akt. nur fï¿½r ESZ gedacht';
     error(msg)
 end
 
 % -------------------------------------------------------------------------
 % Vorbereiten In-&Outputdateien
-Infile = fopen(esigpath,'r');                                              % Öffne Inputdatei 
+Infile = fopen(esigpath,'r');                                              % ï¿½ffne Inputdatei 
 DATA0 = fread(Infile,[ntens+1,1],'double');                                % Startwerte
-fout = fopen(Outfile,'w');                                                 % Öffne Ergebnissdatei
+fout = fopen(Outfile,'w');                                                 % ï¿½ffne Ergebnissdatei
 BSize = 10000;                                                             % Buffer
 
 % -------------------------------------------------------------------------
-% Definitionen für newton-verfahren
+% Definitionen fï¿½r newton-verfahren
 tol = 1e-16;                       % Abbruchkriterium
 maxiter = 100;                      % Maximale Interation
 alpha = 0.0;                       % Relaxationsparameter
@@ -90,17 +90,17 @@ switch material
 end
 
 % -------------------------------------------------------------------------
-% Elastizitätskonstanten
+% Elastizitï¿½tskonstanten
 E = para(1);                                                               % E-Modul
 nu = para(2);                                                              % Querdehnzahl
 Gmod = E / (2 * (1 + nu));
 % CEL = elast_steifigkeit(E,nu,ntens,ndi);                                   % Steifigkeit
 % DEL = elast_nachgiebigkeit(E,nu,ntens,ndi);                                % Nachgiebigkeit
-M = [2,-1,0;-1,2,0;0,0,3]./3;                                              % Abbildungen für Fließfläche
+M = [2,-1,0;-1,2,0;0,0,3]./3;                                              % Abbildungen fï¿½r Flieï¿½flï¿½che
 ML = [2,1,0;1,2,0;0,0,2];
 
 % -------------------------------------------------------------------------
-% Init Referenzzustände
+% Init Referenzzustï¿½nde
 % Annhame Lastfolge startet im Nullzustand -> Alle Refs mit 0
 % inititalisieren
 % Bei Neuber alle "realen" Spannungen an einem Referenzpunkt in Komponente 
@@ -109,17 +109,17 @@ ML = [2,1,0;1,2,0;0,0,2];
 REF = REF0;
 dESIG0 = zeros(3,1);                                                       % Startwert Pseudospannungsinkrement
 
-% Ausführen Kerbsimulation (Hauptschleife über alle Werte in esigpath)
+% Ausfï¿½hren Kerbsimulation (Hauptschleife ï¿½ber alle Werte in esigpath)
 aktdat = 2;
 while aktdat <= numink
     % ---------------------------------------------------------------------
     % Pseudo elastische Werte einlesen
-    space = min(BSize,numink-aktdat+1);                                    % Niemals mehr Speicher als Buffergröße freigeben
+    space = min(BSize,numink-aktdat+1);                                    % Niemals mehr Speicher als Buffergrï¿½ï¿½e freigeben
     % Einlesen Teilwerte aus pseudo Spannungsverlauf
-    DATA = fread(Infile,[ntens+1,space],'double');                         % Einlesen Durchlaufzähler und pseudo Spannungen
+    DATA = fread(Infile,[ntens+1,space],'double');                         % Einlesen Durchlaufzï¿½hler und pseudo Spannungen
     % Setzten Startwerte
     DATA = [DATA0,DATA];
-    % Ermittle Pseudo Elastische Größem
+    % Ermittle Pseudo Elastische Grï¿½ï¿½em
     ESIG = DATA(2:4,:);
     EEPS = DEL * ESIG;
     
@@ -146,7 +146,7 @@ while aktdat <= numink
         % Automatisches Setzten von Zwischeninkrementen
         if jj == 1 % Erstes Inkrement plastisch -> Fehlermeldung
             %     msg = ['Fehler in Neuber. Erstes Inkrement plastisch, bitte mindestens',...
-            %            ' ein elastisches Inkrement einfügen'];
+            %            ' ein elastisches Inkrement einfï¿½gen'];
             %     error(msg)
             msg = 'Erstes Inkrement ist plastisch, neues Inkrement wird berechnet';
             warning(msg)
@@ -174,7 +174,7 @@ while aktdat <= numink
     end
     
     % -------------------------------------------------------------------------
-    % Speicher für Zustandsvariablen
+    % Speicher fï¿½r Zustandsvariablen
     ZVAR = zeros(size(ZVAR0,1),space + 1);                                 % Speicher
     
     % -------------------------------------------------------------------------
@@ -194,20 +194,20 @@ while aktdat <= numink
     f = zeros(3,space + 1);
     
     % -------------------------------------------------------------------------
-    % Hauptschleife über alle Inkremente der Lastfolge
+    % Hauptschleife ï¿½ber alle Inkremente der Lastfolge
     for ii = jj + 1 : space + 1
         
         % =====================================================================
-        % Inkremente in Pseudo elastischen Größen
+        % Inkremente in Pseudo elastischen Grï¿½ï¿½en
         dESIG = ESIG(:,ii) - ESIG(:,ii-1);
         dEEPS = EEPS(:,ii) - EEPS(:,ii-1);
         
         % =====================================================================
-        % Prüfe auf Umkehrpunkt
+        % Prï¿½fe auf Umkehrpunkt
         ukp = dESIG .* dESIG0 < 0;
         
         % =====================================================================
-        % Prüfe auf erste Ecke
+        % Prï¿½fe auf erste Ecke
         eck = [false,false,false];
         for ee = 1 : 3
             if dESIG(ee) ~= 0 && dESIG0(ee) == 0 && ii > jj + 1
@@ -221,7 +221,7 @@ while aktdat <= numink
         dESIG0(idx) = dESIG(idx);
         
         % =====================================================================
-        % Update die Referenzzustände
+        % Update die Referenzzustï¿½nde
         % REF(3,5) = [REF_ESIG, REF_EEPS, REF_SIG, REF_EPSE, REF_EPSP]
         EPSE = DEL * ZVAR(1:ntens,ii-1);                                       % Elastische Dehungen
         
@@ -259,7 +259,7 @@ while aktdat <= numink
                 0     ,                0          , ZVAR(3,ii-1)-REF(3,3)];
             
             % GHAT
-            % GHAT = dESED/dSIG
+            % GHAT = dESED/dSIG kommentierter Code?
             G11 = 2/E * ( ZVAR(1,ii-1)-REF(1,3) ) ...
                 - 2 * nu / E * ( ZVAR(2,ii-1)-REF(2,3) ) ...
                 + ( ZVAR(ntens+1,ii-1) - REF(1,5));
@@ -292,7 +292,7 @@ while aktdat <= numink
             % explizite Integration des Materialmodells
             ZVAR(:,ii) = matfunexp(dEPHI, ZVAR(:,ii-1), para, GHAT, PHAT);
             
-            % berechne tatsächliches Energieinkrement an ii-1
+            % berechne tatsï¿½chliches Energieinkrement an ii-1
             dEPS = DEL * ZVAR(1:ntens,ii) +  ZVAR(ntens+1:2*ntens,ii) - ...
                 DEL * ZVAR(1:ntens,ii-1) -  ZVAR(ntens+1:2*ntens,ii-1);
             SIG = ZVAR(1:ntens,ii-1);
@@ -328,7 +328,7 @@ while aktdat <= numink
                 ZVAR(:,ii-1), dEPHI,...           % Zustand
                 REF(:,3), REF(:,4) + REF(:,5),...% Refzustand
                 DEL, para, matfunimp,...         % Material
-                'ModNeuber',...                  % Definiert Näherungsverfahren
+                'ModNeuber',...                  % Definiert Nï¿½herungsverfahren
                 maxiter,tol,alpha,...            % Iter optionen
                 dEEPS,...                        % Startwert Dehungsinkrement
                 ii, ...
@@ -343,12 +343,12 @@ while aktdat <= numink
         % Abstandsquadrate soll - ist
         f(:,ii) = dEPHI - dPHI;
         
-    end % Ende Schleife über Inkremente
+    end % Ende Schleife ï¿½ber Inkremente
     % pseudo Spannungen & DLZ am Ende
     DATA0 = DATA(:,space+1);
     % Zustandsvariablen am Ende
     ZVAR0 = ZVAR(:,space + 1);
-    % Herrauslesen der lokalen Größen je nach Material
+    % Herrauslesen der lokalen Grï¿½ï¿½en je nach Material
     if aktdat == 2
         SIG = ZVAR(1:ntens,:);
         EPSP = ZVAR(ntens+1:2*ntens,:);
@@ -364,11 +364,11 @@ while aktdat <= numink
     [EPS, ~] = dehnungZZ(EPS,EPSP,para(2));
     % Rausschreiben Spannungen & Dehnungen 
     fwrite(fout,[DLZ;SIG;EPS],'double');
-    % Inkrementiere Zeiger auf nächsten Index in ESIGALL
-    aktdat = aktdat + space;                                               % Nächster Neuer Wert im nächsten Schleifendurchlauf  
-end % Ende Schleife über alle pseudo Spannungen
+    % Inkrementiere Zeiger auf nï¿½chsten Index in ESIGALL
+    aktdat = aktdat + space;                                               % Nï¿½chster Neuer Wert im nï¿½chsten Schleifendurchlauf  
+end % Ende Schleife ï¿½ber alle pseudo Spannungen
 
-% Schließe Output & Input File
+% Schlieï¿½e Output & Input File
 fclose(fout);
 fclose(Infile);
 

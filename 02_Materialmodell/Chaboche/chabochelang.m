@@ -1,6 +1,6 @@
 function [ZVARneu] = chabochelang(desig,ZVAR,para,epara)
-% Implementierung des Materialmodells nach chaboche, für pseudo
-% stress aproach nach Lang 
+% Implementierung des Materialmodells nach Chaboche, für pseudo
+% stress approach nach Lang 
 %
 % ! Nur Spannungssteuerung im ESZ
 %
@@ -13,6 +13,7 @@ function [ZVARneu] = chabochelang(desig,ZVAR,para,epara)
 %
 %
 % TODO: ersetzte zentrale Differenzen in Newtonverfahren durch analytische
+% --> wird das noch gemacht?
 % Ableitung
 %
 %   INPUT:

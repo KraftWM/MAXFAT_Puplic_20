@@ -1,13 +1,13 @@
 function [SIG, EPS, EPSP, ALPHA, R, P] = neuberpropeps( ...
                                    ZVAR0, para, ESIG, EEPS, ...
                                    ntens, ndi, material, numink)
-% Implentation der Neuber Methode für mehrachsige Kerbnäherung
+% Implentation der Neuber Methode fï¿½r mehrachsige Kerbnï¿½herung
 %
 %  !!!!!    Implementierung sodass dehnungen proportional zu 
 %           PseudoDehnungen sind !!!!!!!
 %
 % INPUT:
-% ZVAR0     -> Startwerte der Zustandsvariablen, Zustandsvariblen für die
+% ZVAR0     -> Startwerte der Zustandsvariablen, Zustandsvariblen fï¿½r die
 %              Materialmodelle wie bei dehnungsgesteuerter integration
 % para      -> Parameter Materialmodel
 % ESIG      -> Pseudo elastische Spannungen
@@ -15,7 +15,7 @@ function [SIG, EPS, EPSP, ALPHA, R, P] = neuberpropeps( ...
 % ntens     -> Anzahl Tensorkomponenten
 % ndi       -> Anzahl Hauptdiagonalelemente
 % material  -> Definiert welches Materialmodell verwendet wird
-% numink    -> Anzahl inkremente der Lastfolge
+% numink    -> Anzahl Inkremente der Lastfolge
 %
 % OUTPUT:
 % SIG    -> elastisch-plastischer Spannungsverlauf
@@ -23,7 +23,7 @@ function [SIG, EPS, EPSP, ALPHA, R, P] = neuberpropeps( ...
 % EPSP   -> plastischer Dehnungsverlauf
 % ALPHA  -> Verlauf der Backstresstensoren
 % R      -> Radius FF
-% P      -> plastische Bogenlänge
+% P      -> plastische Bogenlï¿½nge
 %
 % ------------------------------------------------------------------------
 % Autor: Jan Kraft                                                        |
@@ -33,10 +33,10 @@ function [SIG, EPS, EPSP, ALPHA, R, P] = neuberpropeps( ...
 
 
 % -------------------------------------------------------------------------
-% Prüfe ob ebener Spannungszustand
+% Prï¿½fe ob ebener Spannungszustand
 
 if ntens ~= 3 && ndi ~= 2
-    msg = 'ESED akt. nur für ESZ gedacht';
+    msg = 'ESED akt. nur fï¿½r ESZ gedacht';
     error(msg)
 end
 
@@ -66,14 +66,14 @@ switch material
 end
 
 % -------------------------------------------------------------------------
-% Elastizitätskonstanten
+% Elastizitï¿½tskonstanten
 E = para(1);                                                               % E-Modul
 nu = para(2);                                                              % Querdehnzahl
 % CEL = elast_steifigkeit(E,nu,ntens,ndi);                                   % Steifigkeit
 DEL = elast_nachgiebigkeit(E,nu,ntens,ndi);                                % Nachgiebigkeit
 
 % -------------------------------------------------------------------------
-% Init Referenzzustände
+% Init Referenzzustï¿½nde
 % Annhame Lastfolge startet im Nullzustand -> Alle Refs mit 0
 % inititalisieren
 % REF(3,5) = [REF_ESIG, REF_EEPS, REF_SIG, REF_EPS]
@@ -98,13 +98,13 @@ while weiter
 end
 
 % -------------------------------------------------------------------------
-% Speicher für Zustandsvariablen
+% Speicher fï¿½r Zustandsvariablen
 ZVAR = zeros(size(ZVAR0,1),numink);
 % ZVAR(:,1) = ZVAR0;
 ZVAR(1:ntens,1:jj) = ESIG(:,1:jj);
 
 % -------------------------------------------------------------------------
-% Init altes Inkrement der pseudo Größen
+% Init altes Inkrement der pseudo Grï¿½ï¿½en
 dESIG0 = zeros(3,1);
 
 % -------------------------------------------------------------------------
@@ -117,35 +117,35 @@ dESIG0 = zeros(3,1);
 % dESED = zeros(3,1);
 
 % -------------------------------------------------------------------------
-% speicher für proportionalitätsfaktoren
+% speicher fï¿½r proportionalitï¿½tsfaktoren
 rho = ones(1,numink);
 
 % -------------------------------------------------------------------------
-% Variablen für die Interation
+% Variablen fï¿½r die Interation
 maxiter = 100;
 tol = 1e-16;
 
 % -------------------------------------------------------------------------
-% Hauptschleife über alle Inkremente der Lastfolge
+% Hauptschleife ï¿½ber alle Inkremente der Lastfolge
 for ii = jj + 1 : numink
     
     % =====================================================================
-    % Inkremente in Pseudo elastischen Größen
+    % Inkremente in Pseudo elastischen Grï¿½ï¿½en
     dESIG = ESIG(:,ii) - ESIG(:,ii-1);
     dEEPS = EEPS(:,ii) - EEPS(:,ii-1);
     
     % =====================================================================
-    % Prüfe auf Umkehrpunkt
+    % Prï¿½fe auf Umkehrpunkt
     ukp = dESIG .* dESIG0 < 0;
     
     % =====================================================================
-    % Update die Referenzzustände
+    % Update die Referenzzustï¿½nde
     EPS = DEL * ZVAR(1:ntens,ii-1) + ZVAR(1+ntens:2*ntens,ii-1);
     REF(ukp,:) = [ESIG(ukp,ii-1), EEPS(ukp,ii-1), ZVAR(ukp,ii-1), EPS(ukp)];
     
     
     % =====================================================================
-    % Prüfe auf erste Ecke 
+    % Prï¿½fe auf erste Ecke 
     eck = [false,false,false];
     for ee = 1 : 3
         if dESIG(ee) ~= 0 && dESIG0(ee) == 0 && ii > jj + 1
@@ -189,7 +189,7 @@ for ii = jj + 1 : numink
             break
         end
         
-        % speichern verhältnis
+        % speichern verhï¿½ltnis
         ratiter(iter) = rat;
         
         % Dehnungsinkrement
@@ -222,12 +222,12 @@ for ii = jj + 1 : numink
             % Ableitung Zielfunktion
             dummy = CEP * dEEPS;
             dfdrat = sum(G .* dummy + P .* dEEPS);
-            % Abfangen von Singularität
+            % Abfangen von Singularitï¿½t
             if dfdrat == 0
                 dfdrat = 1;
             end
 
-            % inkrement verhältnis
+            % inkrement verhï¿½ltnis
             drat = f/dfdrat;
 
             % Bisektion falls newton osziliert
@@ -248,11 +248,11 @@ for ii = jj + 1 : numink
                     rat = dis * rat + (1-dis)*ratiter(iter-1);
                     verfahren = false;
                 else
-                    % neues Verhältnis
+                    % neues Verhï¿½ltnis
                     rat = rat + drat;
                 end
             else
-                % neues Verhältnis
+                % neues Verhï¿½ltnis
                 rat = rat + drat;
             end
         
@@ -267,10 +267,10 @@ for ii = jj + 1 : numink
                 ratminus = rat;
             end
             
-            % linearer Abstandsschätzer
+            % linearer Abstandsschï¿½tzer
             dis = -fminus/(fplus-fminus);
             
-            % neues Verhältniss 
+            % neues Verhï¿½ltniss 
             rat = dis * ratplus + (1-dis) * ratminus;
             
         end % Ende verzweigung newton/Bisektion
@@ -278,14 +278,14 @@ for ii = jj + 1 : numink
         
     end % Ende Iterationsschleife
     
-    % Speichern verhältnis
+    % Speichern verhï¿½ltnis
     rho(ii) = rat;
     
-end % Ende Schleife über Inkremente 
+end % Ende Schleife ï¿½ber Inkremente 
 
 
 % -------------------------------------------------------------------------
-% Herrauslesen der lokalen Größen je nach Material
+% Herrauslesen der lokalen Grï¿½ï¿½en je nach Material
 switch material
     case 'Chaboche'
         

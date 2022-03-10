@@ -1,7 +1,7 @@
 function [ZVARneu] = SpanIntDoring(ntens,ndi,ZVAR0,para,dSIG,dEPS0)
 % Spannungsgesteuerte Integration des Döring Modells
-% Wegen der Möglichkeit des Entfestigenden Materialverhaltens werden
-% Spannungsinkremente mit den Döringmodell iterirt, das Materialmodell wird
+% Wegen der Möglichkeit des entfestigenden Materialverhaltens werden
+% Spannungsinkremente mit den Döringmodell iteriert, das Materialmodell wird
 % dabei dehnungsgesteuert integriert. Die Iteration des
 % Spannungsinkrements erfolgt mit den Newton verfahren
 %

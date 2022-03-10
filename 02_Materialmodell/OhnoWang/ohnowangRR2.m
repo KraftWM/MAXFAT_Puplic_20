@@ -23,7 +23,7 @@ function [ZVARneu] = ohnowangRR2(ntens, ndi, ink, ZVAR, ink_flag, parameter)
 %
 %
 %    OUTPUT:
-%        ZVARneu    -> neue zustandsvariablen nach Lastinkrement
+%        ZVARneu    -> neue Zustandsvariablen nach Lastinkrement
 %    
 %    NOTATIONEN:
 %    Spannungen                 Verzerrungen
@@ -49,7 +49,7 @@ nu = parameter(2);
 G = E/(2*(1+nu));
 r0 = parameter(end);
 % kinematische Verfestigung
-% c_i = parameter(3:2+M);
+% c_i = parameter(3:2+M); % kommentierter Code
 % r_i = parameter(3+M:2+2*M);
 % h_i = c_i.*r_i;
 % chi_i = parameter(3+2*M:2+3*M);

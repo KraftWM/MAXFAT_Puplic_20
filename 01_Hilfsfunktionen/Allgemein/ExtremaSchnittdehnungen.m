@@ -1,5 +1,5 @@
 function [EXTI,EXTII,EXTIII] = ExtremaSchnittdehnungen(EPS)
-% Gibts die Extrema der Schnittdehnungen für gegebene Dehnungstensor im 
+% Gibt die Extrema der Schnittdehnungen für gegebene Dehnungstensor im 
 % ebenen Spannungszustand zurück.
 % 
 % INPUT:

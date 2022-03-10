@@ -1,6 +1,6 @@
 function [FNP] = BishopFNP(sig)
 %UNTITLED3 Summary of this function goes here
-%   Detailed explanation goes here
+%   Detailed explanation goes here -> ?
 %--------------------------------------------------------------------------
 %                      Eingabedaten auswerten
 %--------------------------------------------------------------------------
@@ -29,7 +29,7 @@ end
 
 
 %--------------------------------------------------------------------------
-%                  Berechnung Nichtproportionalitätskennzahl
+%                  Berechnung Nichtproportionalitï¿½tskennzahl
 %--------------------------------------------------------------------------
 x = [sig_xx; sig_yy; sig_zz; sqrt(2)*tau_xy; sqrt(2)*tau_xz; sqrt(2)*tau_yz];
 

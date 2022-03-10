@@ -6,7 +6,7 @@ function [tout,yout] = rk87(odefun, tspan, y0, options, varargin)
 % High order embedded Runge-Kutta formulae. J.Comp. Appl. Math., Vol. 7. p.67-75.
 %
 % Vorgehen bei Schrittweitensteurung aus Vorlesungsskript:
-% Numerischer Methoden der technischen Dynamik, Prof. Schweizer, Tu Darmstadt
+% Numerischer Methoden der technischen Dynamik, Prof. Schweizer, TU Darmstadt
 %
 % Weitere Infos zu eingebetten RK-verfahren aus: 
 % Numerik gewöhnlicher Differentialgleichungen mit Computer Algebra

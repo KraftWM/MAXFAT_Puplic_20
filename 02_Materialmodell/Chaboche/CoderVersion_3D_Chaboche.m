@@ -9,7 +9,7 @@
 function dX = ...
           CoderVersion_3D_Chaboche(~, X, M, ink, ink_flag, parameter, C, D, ...
                            P, P_hat, P_tilde)
-% Konkretes Materialmodell für 3D Spannungszustände, gibt bei vorgabe eines
+% Konkretes Materialmodell für 3D Spannungszustände, gibt bei Vorgabe eines
 % Lastinkrementes die Inkremente der inneren Variablen zurück. Dabei wird
 % angenommen, das jedes übergebene Inkrement elastisch-plastische 
 % Deformationen hervorruft.
@@ -41,7 +41,7 @@ function dX = ...
 % -------------------------------------------------------------------------
 % Zuweisen der Materialparameter
 ntens = 6;                                                                 % Tensorkomponenten
-% M = (length(parameter)-5)/2;                                               % anzahl Backstresstensoren
+% M = (length(parameter)-5)/2;                                               % Anzahl Backstresstensoren
 
 % isotrope Verfestigung
 q = parameter(3);
@@ -50,7 +50,7 @@ gamma = parameter(4);
 % kinematische Verfestigung
 zeta_i = parameter(5:4+M);
 r_i = parameter(5+M:end-1);
-r0 = parameter(end);                                                       % startradius fliessfläche
+r0 = parameter(end);                                                       % Startradius Fliessfläche
 h_i = zeta_i.*r_i;
 
 % oft verwendete Konstanden

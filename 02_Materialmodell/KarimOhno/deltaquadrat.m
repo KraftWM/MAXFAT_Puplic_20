@@ -2,7 +2,7 @@
 %                  Aitkens Delta Quadrat Verfahren                       %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function dphat = deltaquadrat(dpiter,iter)
-% Funktion zum beschleunigen der Konvergenz
+% Funktion zum beschleunigen der Konvergenz -> Beschreibung hier
     dphat = dpiter(iter) - ( dpiter(iter) - dpiter(iter-1) ).^2 / ...
         ( dpiter(iter) - 2*dpiter(iter-1) + dpiter(iter-2) );
     if dphat <= 0

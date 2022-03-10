@@ -179,6 +179,7 @@ azc(azc > 1) = 1;
 azc(azc<0.25) = 0.25;
 azr(azr>4) = 4;
 azr(azr<0) = 0;
+% Kann kommentierter Code gelöscht werden?
 % if azc > 1
 %     azc = 1;
 % elseif azc < 0.25

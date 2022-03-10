@@ -18,9 +18,9 @@ function dX = CoderVersion_ESZ_OhnoWangEnergie(~, ZVAR, M, domega, para, ...
 %  ZVAR        -> aktueller Zustand
 %   M          -> Anzahl der Backstresstensoren (auf 20 beschränkt)
 %  para        -> Material- und Struckturparameter
-%  domega      -> inkrement der energien
+%  domega      -> Inkrement der Energien
 %   GINV       -> inverse Ableitung Energie nach Spannungen
-%  PHAT        -> ABleitung Energie nach plastischen Dehnungen (!als vektor)
+%  PHAT        -> Ableitung Energie nach plastischen Dehnungen (!als vektor)
 % M_, MLINE... -> Diverse Abbildungen
 %
 % OUTPUT:
@@ -34,9 +34,9 @@ function dX = CoderVersion_ESZ_OhnoWangEnergie(~, ZVAR, M, domega, para, ...
 
 % Zuweisen der Materialparameter
 ntens = 3;                                                                 % Tensorkomponenten
-% M = (length(para)-3)/3;                                               % anzahl Backstresstensoren
+% M = (length(para)-3)/3;                                               % Anzahl Backstresstensoren
 
-r0 = para(end);                                                       % startradius fliessfläche
+r0 = para(end);                                                       % Startradius Fliessfläche
 % kinematische Verfestigung
 c_i = para(3:2+M);
 r_i = para(3+M:2+2*M);
@@ -109,7 +109,7 @@ da_dp = sum(dalpha_dp,2);
 h = transn * MCHECK * da_dp;
 
 %--------------------------------------------------------------------------
-%                   inkremente plastische bogenlänge
+%                   Inkremente plastische Bogenlänge
 %--------------------------------------------------------------------------
 dummy1 = GINV *domega;
 if size(PHAT,2) == 1
@@ -120,7 +120,7 @@ end
 dp = (transn * dummy1)/(h + transn * dummy2 );
 
 %--------------------------------------------------------------------------
-%                   inkremente der zustandsvariablen
+%                   Inkremente der Zustandsvariablen
 %--------------------------------------------------------------------------
 
 depsp=dp.*n;

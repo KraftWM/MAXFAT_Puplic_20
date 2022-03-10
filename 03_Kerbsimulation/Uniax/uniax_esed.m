@@ -2,11 +2,11 @@
 %            Hilfsfunktionen für einachsige Kerbnäherung
 % =========================================================================
 function [esig,eepsp] = uniax_esed(E,nstrich,sig,epsp)
-% einachsige esed !!!!!  zur ermittlung von BAUTEILFLIEßKURVEN !!!!!
+% einachsige esed !!!!!  zur Ermittlung von BAUTEILFLIEßKURVEN !!!!!
 %
 % INPUT:
 % E        -> Emodul
-% nstrich  -> zyklischer parameter aus ramberg osgood
+% nstrich  -> zyklischer Parameter aus Ramberg Osgood
 % sig      -> ELATISCH PLASTISCHE Spannungen
 % epsp     -> PLASTISCHE Dehnungen
 %

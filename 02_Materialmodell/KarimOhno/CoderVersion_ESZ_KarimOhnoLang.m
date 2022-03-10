@@ -11,9 +11,10 @@ function ZVARneu = CoderVersion_ESZ_KarimOhnoLang(esig_n, eeps_n, eepsp_n, ealph
                                   esig,...
                                   parameter,...
                                   D,P,P_line,P_hat,A)
+% Beschreibung hier
 % Konkretes Materialmodell für ESZ Spannungszustände, gibt bei vorgabe 
 % eines Lastinkrementes die geupdatetn Zustandsvariablen mit implizitem 
-% Euler zurück .
+% Euler zurück.
 %
 %   INPUT:
 %       esig_n       -> Pseudo Spannungen
@@ -43,8 +44,8 @@ M = (length(parameter)-4)/6;                                               % Anz
 E = parameter(1);
 nu = parameter(2);
 G = E/(2*(1+nu));
-r0 = parameter(3+3*M);                                                     % startradius fliessfläche
-er0 = parameter(end);                                                     % startradius fliessfläche
+r0 = parameter(3+3*M);                                                     % Startradius Fliessfläche, nicht verwendet? --> doppelter Code?
+er0 = parameter(end);                                                     % Startradius Fliessfläche
 % kinematische Verfestigung Materialmodell
 c_i = parameter(3:2+M);
 r_i = parameter(3+M:2+2*M);
@@ -63,8 +64,8 @@ w3d2 = sqrt(3/2);
 % ------------------------------------------------------------------------- 
 
 % Speicher und Abbruchbedingungen
-maxiter = 100;              % Maximale Iterationsschleifen
-dpiter = zeros(1,maxiter);  % Speicher plastische dehnungsinkremente
+maxiter = 100;              % maximale Iterationsschleifen
+dpiter = zeros(1,maxiter);  % Speicher plastische Dehnungsinkremente
 iter = 1;                   % Schleifenzähler 
 tol = 1e-4;                 % toleranz Abbruchbedingung
 % Startwerte
@@ -99,7 +100,7 @@ dummy = 2/3 * A * depsp;
 for ii = 1 : M
     ealpha_hash(:,ii) = ej_i(ii) * ( ealpha_hash(:,ii) + eh_i(ii) * dummy );
 end
-% ealpha_star = ealpha_n + 2/3 * eh_i .* (A * depsp);
+% ealpha_star = ealpha_n + 2/3 * eh_i .* (A * depsp); Kommentierter Code?
 % ej_i = er_i./(er_i + emu_i.*eh_i*dpiter(iter));
 % ealpha_hash = ej_i .* ealpha_star;
 % Iterationsschleife

@@ -32,7 +32,7 @@ function dX = ...
 %--------------------------------------------------------------------------
 
 ntens = 2;                                                                 % Tensorkomponenten
-% M = (length(parameter)-5)/2;                                               % anzahl Backstresstensoren
+% M = (length(parameter)-5)/2;                                               % Anzahl Backstresstensoren
 
 % isotrope Verfestigung
 q = parameter(3);
@@ -40,7 +40,7 @@ gamma = parameter(4);
 % kinematische Verfestigung
 zeta_i = parameter(5:4+M);
 r_i = parameter(5+M:end-1);
-r0 = parameter(end);                                                       % startradius fliessfläche
+r0 = parameter(end);                                                       % Startradius Fliessfläche
 h_i = zeta_i.*r_i;
 
 % oft verwendete Konstanden
@@ -64,7 +64,7 @@ else % Fehler
 end
 % backstress
 alpha = reshape(X(2*ntens+1:(M+2)*ntens),ntens,M);
-% radius fließfläche
+% Radius Fließfläche
 r = X(end-1);
 
 %--------------------------------------------------------------------------
@@ -92,7 +92,7 @@ end
 da_dp = sum(dalpha_dp,2);
 
 %--------------------------------------------------------------------------
-%                   Ableitung des radius der Fließfläche
+%                   Ableitung des Radius der Fließfläche
 %--------------------------------------------------------------------------
 
 dr_dp = (q-gamma*(r-r0));
@@ -104,7 +104,7 @@ dr_dp = (q-gamma*(r-r0));
 h = w3d2 * nTrans * (P_check .* da_dp) + dr_dp;
 
 %--------------------------------------------------------------------------
-%                   inkremente plastische bogenlänge
+%                   Inkremente plastische Bogenlänge
 %--------------------------------------------------------------------------
 
 if ink_flag == 0 % spannungssteuerung
@@ -118,7 +118,7 @@ else % Fehler
 end
 
 %--------------------------------------------------------------------------
-%                   inkremente der zustandsvariablen
+%                   Inkremente der Zustandsvariablen
 %--------------------------------------------------------------------------
 
 depsp=dp.*w3d2.*n;

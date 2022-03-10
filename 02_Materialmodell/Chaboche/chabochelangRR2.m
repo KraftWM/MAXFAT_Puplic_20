@@ -175,7 +175,7 @@ function ZVARneu = chabocheESZlang(...
 % -------------------------------------------------------------------------
 % Zuweisen der Materialparameter
 ntens = 3;                                                                 % Tensorkomponenten
-% M = (length(para)-8)/4;                                               % anzahl Backstresstensoren
+% M = (length(para)-8)/4;                                               % Anzahl Backstresstensoren
 M = (length(para)-5)/2;
 eM = (length(epara)-5)/2;
 % kinematische Verfestigung Materialmodell
@@ -280,7 +280,7 @@ while normp > tol
     beta_npe = eY_npe * ebeta_hat / ( eY_npe + dp_npe * sum(eh_i.*etheta_i));
 %     n_npe = w3d2 * (P_hat * beta_npe)/ r0;
     n_npe = sqrt(beta_npe' * P_line * beta_npe); if n_npe == 0; n_npe = mynull; end
-    n_npe = (P_hat * beta_npe)/n_npe;
+    n_npe = (P_hat * beta_npe)/n_npe; %ungenutzt?
 %     fprintf('||n|| = %.15f\n',n_npe' * A * P_line * A * n_npe)
     % ... Prüfe Konvergenz
     normp = abs(1-dpiter(iter)/dpiter(iter-1));
