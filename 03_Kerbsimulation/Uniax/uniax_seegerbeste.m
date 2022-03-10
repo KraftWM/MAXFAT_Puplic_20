@@ -3,7 +3,7 @@ function [esig,eepsp] = uniax_seegerbeste(E,sig,epsp,Kprime,nprime,Kp)
 %  !!!!!  zur ermittlung von BAUTEILFLIEßKURVEN !!!!!
 %
 % INPUT:
-% E    -> Emodul
+% E    -> E-Modul
 % sig  -> ELATISCH PLASTISCHE Spannungen
 % epsp -> PLASTISCHE Dehnungen
 % Kp   -> Traglastformzahl

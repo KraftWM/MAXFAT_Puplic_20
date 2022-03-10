@@ -31,7 +31,7 @@ ntens = 2;                                                                 % Ten
 % M = (length(parameter)-11)/3;                                              % Anzahl TBST
 
 % elastische 
-r0 = parameter(end);                                                       % startradius fliessfläche
+r0 = parameter(end);                                                       % Startradius Fliessfläche
 % kinematische Verfestigung
 c_i = parameter(3:2+M);
 r_i = parameter(3+M:2+2*M);
@@ -188,7 +188,7 @@ dQdp = gamma * ( Qnp - Q );
 h = transn * (P_check .* da_dp) + sqrt(2/3) * dQdp;
 
 %--------------------------------------------------------------------------
-%                   inkremente plastische bogenlänge
+%                   Inkremente plastische Bogenlänge
 %--------------------------------------------------------------------------
 
 if ink_flag == 0 % spannungssteuerung
@@ -201,7 +201,7 @@ else
 end
 
 %--------------------------------------------------------------------------
-%                   inkremente der zustandsvariablen
+%                   Inkremente der Zustandsvariablen
 %--------------------------------------------------------------------------
 
 depsp= dp .* n;

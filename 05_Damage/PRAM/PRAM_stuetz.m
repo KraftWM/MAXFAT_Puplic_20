@@ -59,7 +59,7 @@ classdef PRAM_stuetz < handle
 % FUNKTIONEN:
 % Normal:
 %   pram        -> berechnet Schädigungsparameter
-%   rainflow    -> rainflowzählung mit hcm
+%   rainflow    -> Rainflowzählung mit hcm
 %   hcm         -> hcm zählung 
 %   lebendauer  -> berechnet Lebensdauer
 %   damage_akk  -> Schadensakkumulation
@@ -249,7 +249,7 @@ methods
             end
         end % Ende Berechnung Schädigungsparameter
         
-        % ... rainflowzählung
+        % ... Rainflowzählung
         function P = rainflow(obj,sigepsfile,ndata,phi,psi)
             %==============================================================
             % rainflow zählung und Schädigungsbewertung

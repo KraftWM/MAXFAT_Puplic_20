@@ -1,5 +1,5 @@
 function [esig,eepsp] = uniax_neuber(E,sig,epsp)
-% einachsiger neuber !!!!!  zur ermittlung von BAUTEILFLIEßKURVEN !!!!!
+% einachsiger Neuber !!!!!  zur ermittlung von BAUTEILFLIEßKURVEN !!!!!
 %
 % INPUT:
 % E    -> Emodul

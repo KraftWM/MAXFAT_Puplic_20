@@ -1,4 +1,5 @@
 function q = skaliereGEHundNH(fwt)
+% Was macht die Funktion?
 % q(x) = a - b * f(x)
 % q(1/sqrt(3)) = 0    -> GEH
 % q(1)         = 1    -> NH

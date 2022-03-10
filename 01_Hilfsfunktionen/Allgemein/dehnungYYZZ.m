@@ -1,16 +1,16 @@
-function [EPS, EPSP] = dehnungYYZZ(EPS,EPSP,nu)
+function [EPS, EPSP] = dehnungYYZZ(EPS, EPSP, nu)
 % Funktion berechnet die nicht abgespeicherte Dehnungskomponten in YY und 
 % ZZ Richtung und fügt sie der Dehnung hinzu
 %
 % INPUT:
-%   EPS, EPSP -> Gesamt- & plastische Dehnung  aus sigma-tau,
+%   EPS, EPSP -> Gesamt- & plastische Dehnung aus sigma-tau,
 %                wie folgt abgespeichert:
 %             epsXX
 %      eps =  2epsXY
 %
 % OUTPUT:
 %
-%   EPS, EPSP -> Gesamt- & plastische Dehnung  aus ESZ,
+%   EPS, EPSP -> Gesamt- & plastische Dehnung aus ESZ,
 %                wie folgt abgespeichert:
 %             epsXX
 %      eps =  epsYY

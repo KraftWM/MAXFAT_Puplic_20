@@ -1,5 +1,5 @@
 function [SIG,EPS,DLZ] = read_sigepsfile(sigepsfile,ntens,ndi)
-% Öffne Datei
+% Öffne Datei, welche?
 fid = fopen(sigepsfile,'r'); 
 % Unterscheide Spannungszustände 
 if ntens == 6 && ndi == 3 % 3D

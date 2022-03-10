@@ -25,7 +25,8 @@ function X_neu = CoderVersion_3D_KarimOhno(eps_n, epsp_n, alpha_n,p_n,...
 %         ink       -> Lastinkrement
 %         ink_flag  -> Belastungsart
 %         parameter -> Modellparameter
-%         C,D       -> Elastische Steifigkeit und Nachgiebigkeit   
+%         C,D       -> Elastische Steifigkeit und Nachgiebigkeit   C
+%         ungenutzt?
 %   P, P_hat ...    -> Diverse Abbildungen
 %
 %

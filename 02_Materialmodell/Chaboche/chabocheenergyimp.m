@@ -1,7 +1,7 @@
-function [ZVARneu] = chabocheenergyimp(domega,ZVAR,para,dESIG,REFSIG,REFEPS,REFEPSP)
-% Chaboche Plastizitätsmodell .
+function [ZVARneu] = chabocheenergyimp(domega,ZVAR,para,dESIG,REFSIG,REFEPS,REFEPSP) %REFEPSP nicht verwendet?
+% Chaboche Plastizitätsmodell
 % implementiert für die energiegesteuerte integration bei inkrementellen
-% Kerbnäherungen mit euler implizit
+% Kerbnäherungen mit Euler implizit
 %
 % INPUT:
 %  domega -> Inkrement der energie

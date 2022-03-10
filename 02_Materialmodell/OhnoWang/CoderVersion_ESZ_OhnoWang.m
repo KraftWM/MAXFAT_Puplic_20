@@ -125,7 +125,7 @@ da_dp = sum(dalpha_dp,2);
 h = transn * P_check * da_dp;
 
 %--------------------------------------------------------------------------
-%                   inkremente plastische bogenlänge
+%                   Inkremente plastische Bogenlänge
 %--------------------------------------------------------------------------
 
 if ink_flag == 0 % spannungssteuerung
@@ -138,7 +138,7 @@ else
 end
 
 %--------------------------------------------------------------------------
-%                   inkremente der zustandsvariablen
+%                   Inkremente der Zustandsvariablen
 %--------------------------------------------------------------------------
 
 depsp=dp.*n;

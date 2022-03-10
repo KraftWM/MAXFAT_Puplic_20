@@ -1,6 +1,6 @@
 function [ZVARneu] = karimohnolangV2(desig,ZVAR,para)
 % Implementierung des Materialmodells nach Karim und Ohno, für pseudo
-% stress aproach nach Lang 
+% stress approach nach Lang 
 %
 % ! Nur Spannungssteuerung im ESZ
 % 
@@ -8,10 +8,10 @@ function [ZVARneu] = karimohnolangV2(desig,ZVAR,para)
 % hier wird auch isotrope Verfestigung mit berücksichtigt
 %
 % QUELLE MODELL:
-% Aus Ohno,Karim et al. 2000 Uniaxial Ratchetting of 316FR steel at room
+% Aus Ohno, Karim et al. 2000 Uniaxial Ratchetting of 316FR steel at room
 % tempreture part II
 %
-% Karim,Ohno 2000 Kinematic hardeningmodel suitable for ratchetting with
+% Karim, Ohno 2000 Kinematic hardeningmodel suitable for ratchetting with
 % steady state
 %
 % ABAQUS MANUEL (isotrope Verfestigung wie bei Chaboche Modell in Abaqus)

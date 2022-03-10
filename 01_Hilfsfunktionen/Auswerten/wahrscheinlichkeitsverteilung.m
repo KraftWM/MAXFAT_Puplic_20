@@ -1,5 +1,5 @@
 function [T9010,xm,s] = wahrscheinlichkeitsverteilung(Nexp,Ncalc,titlename,varargin)
-% Berechnet auftretenswahrscheinlichkeit und plotet Sie auch
+% Berechnet Auftretenswahrscheinlichkeit und plottet Sie auch
 %
 % ANNAHME: log10(Ncalc/Nexp) ist Normalverteilt
 %

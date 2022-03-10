@@ -2,7 +2,7 @@ function dX = ...
           CoderVersion_OhnoWang_ST(~, X,M, ink, ink_flag, parameter, C, D, P, ...
                             P_line, P_hat, A, P_check)
 % Konkretes Materialmodell für sigma-tau Spannungszustände, gibt bei 
-% vorgabe eines Lastinkrementes die Inkremente der inneren Variablen 
+% Vorgabe eines Lastinkrementes die Inkremente der inneren Variablen 
 % zurück. Dabei wird % angenommen, das jedes übergebene Inkrement 
 % elastisch-plastische Deformationen hervorruft.
 %
@@ -31,9 +31,9 @@ function dX = ...
 
 % Zuweisen der Materialparameter
 ntens = 2;                                                                 % Tensorkomponenten
-% M = (length(parameter)-3)/3;                                               % anzahl Backstresstensoren
+% M = (length(parameter)-3)/3;                                               % Anzahl Backstresstensoren
 
-r0 = parameter(end);                                                       % startradius fliessfläche
+r0 = parameter(end);                                                       % Startradius Fliessfläche
 % kinematische Verfestigung
 c_i = parameter(3:2+M);
 r_i = parameter(3+M:2+2*M);
@@ -122,7 +122,7 @@ da_dp = sum(dalpha_dp,2);
 h = transn * (P_check .* da_dp);
 
 %--------------------------------------------------------------------------
-%                   inkremente plastische bogenlänge
+%                   inkremente plastische Bogenlänge
 %--------------------------------------------------------------------------
 
 if ink_flag == 0 % spannungssteuerung
@@ -135,7 +135,7 @@ else
 end
 
 %--------------------------------------------------------------------------
-%                   inkremente der zustandsvariablen
+%                   Inkremente der Zustandsvariablen
 %--------------------------------------------------------------------------
 
 depsp=dp.*n;

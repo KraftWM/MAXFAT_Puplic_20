@@ -6,7 +6,7 @@ function load = lastgenerator(typ,amp,pha,fre,mit,ndp)
 % amp    - Amplitude
 % pha    - Phasenverschiebung (in Grad)
 % fre    - Frequenz
-% mit    - mittelwert
+% mit    - Mittelwert
 % ndp    - Anzahl Datenpunkte (insgesamt)
 % 
 % OUTPUT:

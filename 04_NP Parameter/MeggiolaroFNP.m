@@ -1,9 +1,9 @@
 function [FNP] = MeggiolaroFNP(sig)
 %UNTITLED6 Summary of this function goes here
-%   Detailed explanation goes here
+%   Detailed explanation goes here -> ?
 
 %--------------------------------------------------------------------------
-%                       Eingabedaten überprüfen
+%                       Eingabedaten ï¿½berprï¿½fen
 %--------------------------------------------------------------------------
 
 if size(sig,2) ~= 3
@@ -19,7 +19,7 @@ sig_yy = sig(:,2)';
 tau_xy = sig(:,3)';
 
 %--------------------------------------------------------------------------
-%                  Berechnung Nichtproportionalitätskennzahl
+%                  Berechnung Nichtproportionalitï¿½tskennzahl
 %--------------------------------------------------------------------------
 X = sig_xx - sig_yy;
 Y = sqrt(3)*tau_xy;

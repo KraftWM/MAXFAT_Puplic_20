@@ -8,7 +8,7 @@ function dZVAR = ...
 %                 benötigt
 %     X        -> aktueller Zustand
 %  para        -> Material- und Struckturparameter
-%  desig       -> inkrement des pseudospannungstensors
+%  desig       -> Inkrement des pseudospannungstensors
 % CEL,DEL      -> Elastische Steifigkeit und Nachgiebigkeit   
 % P, P_line... -> Diverse Abbildungen
 %

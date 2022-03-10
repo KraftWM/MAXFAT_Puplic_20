@@ -1,4 +1,4 @@
-function [SUBDATA,In,Jn,Kn] = CutOutHyst2(DATA,I,J,K,Nf)
+function [SUBDATA, In, Jn, Kn] = CutOutHyst2(DATA, I, J, K, Nf)
 % Funktion schneidet schon geschlossene Hysteresen aus Zeitfolge aus
 %
 % INPUT:

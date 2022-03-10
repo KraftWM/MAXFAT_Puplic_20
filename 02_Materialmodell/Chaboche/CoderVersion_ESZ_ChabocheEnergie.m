@@ -17,9 +17,9 @@ function dX = CoderVersion_ESZ_ChabocheEnergie(~, ZVAR, domega, para, ...
 %                 benötigt
 %  ZVAR        -> aktueller Zustand
 %  para        -> Material- und Struckturparameter
-%  domega      -> inkrement der energien
+%  domega      -> Inkrement der Energien
 %   GINV       -> inverse Ableitung Energie nach Spannungen
-%  PHAT        -> ABleitung Energie nach plastischen Dehnungen (!als vektor)
+%  PHAT        -> Ableitung Energie nach plastischen Dehnungen (!als vektor)
 % M_, MLINE... -> Diverse Abbildungen
 %
 % OUTPUT:
@@ -35,14 +35,14 @@ function dX = CoderVersion_ESZ_ChabocheEnergie(~, ZVAR, domega, para, ...
 ntens = 3;                                                                 % Tensorkomponenten
 M = (length(para)-5)/2;                                               % anzahl Backstresstensoren
 
-r0 = para(end);                                                       % startradius fliessfläche
+r0 = para(end);                                                       % Startradius Fliessfläche r0 nicht verwendet?
 q = 0;
 gamma = 0;
 
 % kinematische Verfestigung
 zeta_i = para(5:4+M);
 r_i = para(5+M:end-1);
-r0 = para(end);                                                       % startradius fliessfläche
+r0 = para(end);                                                       % Startradius Fliessfläche
 h_i = zeta_i.*r_i;
 
 % oft verwendete Konstanden
@@ -82,7 +82,7 @@ dummy = w2d3 * A * n;
 for ii = 1:M
     dalpha_dp(:,ii) = dummy * h_i(ii) - zeta_i(ii) * alpha(:,ii);
 end
-% Ableitung gesamtbackstresstensor
+% Ableitung Gesamtbackstresstensor
 da_dp = sum(dalpha_dp,2);
 
 %--------------------------------------------------------------------------
@@ -99,7 +99,7 @@ dr_dp = (q-gamma*(r-r0));
 h = w3d2 * transn * MCHECK * da_dp + dr_dp;
 
 %--------------------------------------------------------------------------
-%                   inkremente plastische bogenlänge
+%                   Inkremente plastische Bogenlänge
 %--------------------------------------------------------------------------
 dummy1 = GINV *domega;
 if size(PHAT,2) == 1
@@ -110,7 +110,7 @@ end
 dp = (w3d2*transn * dummy1)/(h + 3/2 * transn * dummy2 );
 
 %--------------------------------------------------------------------------
-%                   inkremente der zustandsvariablen
+%                   Inkremente der Zustandsvariablen
 %--------------------------------------------------------------------------
 
 depsp=dp.*w3d2.*n;

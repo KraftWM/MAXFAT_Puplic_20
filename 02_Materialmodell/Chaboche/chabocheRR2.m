@@ -53,8 +53,8 @@ M = (length(parameter)-5)/2;
 E = parameter(1);
 nu = parameter(2);
 G = E/(2*(1+nu));
-r0 = parameter(end);
-% kinematische Verfestigung
+r0 = parameter(end); % r0 nicht verwedent
+% kinematische Verfestigung, kommentierter Code l�schen?
 % c_i = parameter(3:2+M);
 % r_i = parameter(3+M:2+2*M);
 % h_i = c_i.*r_i;
@@ -233,9 +233,9 @@ normp = 1;                       % Abbruchbedingung
 theta_i = ones(1,M);
 Gamma = 1;
 % ... Backstress
-alpha_npe = alpha_n;
+alpha_npe = alpha_n; % wird nicht verwendet?
 % ... Isotrope
-Y_npe = Y_n;
+Y_npe = Y_n; % wird nicht verwendet?
 % ... trial Spannungsdeviator
 s_tr = P * sig_tr;
 
@@ -300,6 +300,7 @@ while normp > tol
     end
         
 end % Ende Äußere Iterationsschleife
+% Kommentar l�schen?
 % fprintf('iter = %i normp = %.5f\n',iter,normp)
 % figure(200), hold on
 % semilogy(1:iter-1,normpiter(2:iter),'k--s','LineWidth',1) 
@@ -353,7 +354,7 @@ function ZVARneu = chabocheESZ(...
 % -------------------------------------------------------------------------
 % Zuweisen der Materialparameter
 ntens = 3;                                                                 % Tensorkomponenten
-M = (length(parameter)-5)/2;                                               % anzahl Backstresstensoren
+M = (length(parameter)-5)/2;                                               % Anzahl Backstresstensoren
 nu = parameter(2);
 
 % isotrope Verfestigung
@@ -363,7 +364,7 @@ Qinf = parameter(4);
 % kinematische Verfestigung
 c_i = parameter(5:4+M);
 r_i = parameter(5+M:end-1);
-r0 = parameter(end);                                                       % startradius fliessfläche
+r0 = parameter(end);                                                       % Startradius Fliessfläche
 h_i = c_i.*r_i;
 
 % oft verwendete Konstanden

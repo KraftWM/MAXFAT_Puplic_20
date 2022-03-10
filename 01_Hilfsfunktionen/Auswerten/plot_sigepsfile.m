@@ -1,5 +1,5 @@
 function [SIG,EPS,DLZ] = plot_sigepsfile(sigepsfile,savemode,varargin)
-
+% Beschreibung
 if nargin == 1
     savemode = 0;
 end

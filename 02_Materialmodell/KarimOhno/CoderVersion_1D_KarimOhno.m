@@ -9,16 +9,16 @@ function X_neu = CoderVersion_1D_KarimOhno(eps_n, epsp_n, alpha_n,p_n,...
                            sig_tr,ink,ink_flag,...
                            parameter...
                            )
-% Konkretes Materialmodell für 1D Spannungszustände, gibt bei vorgabe 
+% Konkretes Materialmodell für 1D Spannungszustände, gibt bei Vorgabe 
 % eines Lastinkrementes die geupdatetn Zustandsvariablen mit implizitem 
-% Euler zurück .
+% Euler zurück.
 %
 %   INPUT:
 %       sig_n       -> Spannungen
 %  eps_n,epsp_n     -> Dehnungen
 %       alpha_n     -> Backstresstensoren
-%       dsig_tr     -> Versuchsspannung ( richtige spannung bei
-%                      spannungssteuerung )
+%       dsig_tr     -> Versuchsspannung (richtige Spannung bei
+%                      Spannungssteuerung)
 %         ink       -> Lastinkrement
 %         ink_flag  -> Belastungsart
 %         parameter -> Modellparameter
@@ -37,10 +37,10 @@ function X_neu = CoderVersion_1D_KarimOhno(eps_n, epsp_n, alpha_n,p_n,...
 ntens = 1;                                                                 % Tensorkomponenten
 M = (length(parameter)-3)/3;                                               % Anzahl TBST
 
-% elastische 
+% elastische Materialparameter
 E = parameter(1);
 nu = parameter(2);
-G = E/(2*(1+nu));
+G = E/(2*(1+nu)); % ungenutzt?
 r0 = parameter(end);                                                       % startradius fliessfläche
 % kinematische Verfestigung
 c_i = parameter(3:2+M);

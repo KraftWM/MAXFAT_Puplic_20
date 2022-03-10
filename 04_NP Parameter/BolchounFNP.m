@@ -1,5 +1,5 @@
 function [fnpBOL] = BolchounFNP(sig)
-
+% Beschreibung
 sig_xx = sig(:,1);
 sig_yy = sig(:,2);
 tau_xy = sig(:,3);

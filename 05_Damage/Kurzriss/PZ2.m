@@ -80,7 +80,7 @@ classdef PZ2 < handle
 % FUNKTIONEN:
 % Normal:
 %      dwl2weffwl     -> berechne Weff - Wöhlerlinie aus Dehnungswöhlerlinie
-%      rainflow       -> rainflowzählung mit hcm
+%      rainflow       -> Rainflowzählung mit hcm
 %    kurzriss_mode1   -> berechne PZ bei Mode I
 %    kurzriss_mode23  -> berechne PZ bei Mode II & III
 %    lebensdauer      -> Lebensdauerrechnung

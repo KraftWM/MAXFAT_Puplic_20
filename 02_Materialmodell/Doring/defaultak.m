@@ -1,6 +1,6 @@
 function [ak,bk] = defaultak(num_alpha)
 % Setzt default ak und bk parameter des Döring modells 
-% Aus Dis.Döring Tabelle 5.3 Seite 114
+% Aus Diss. Döring Tabelle 5.3 Seite 114
 % Bis zu 10 Backstresstensoren angegeben, für den rest zu Null gesetzt
 %
 % INPUT:

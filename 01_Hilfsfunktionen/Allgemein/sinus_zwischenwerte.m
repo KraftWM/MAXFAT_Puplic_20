@@ -1,5 +1,5 @@
 function signal = sinus_zwischenwerte(UKP,nzw)
-% Funktion füllt eine Umkehrpunktfolge mit zwischenwerten mit Sinus auf
+% Funktion füllt eine Umkehrpunktfolge mit Zwischenwerten mit Sinus auf
 %
 % INPUT:
 % UKP     - Umkehrpunktfolge (nkana,nukp)

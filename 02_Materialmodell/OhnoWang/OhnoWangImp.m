@@ -28,7 +28,7 @@ function [ZVARneu] = OhnoWangImp(ntens, ndi, ink, ZVAR, ink_flag, para)
 %
 %   INPUT:
 %         ntens     -> Anzahl Tensorkomponten (in Spannungen)
-%         ndi       -> Anzahl Diagonalelemente, mehr kkommentare
+%         ndi       -> Anzahl Diagonalelemente, mehr kkommentare???
 %         ink       -> Belastungsinkrement
 %         ZVAR      -> Zustandsvariablen [eps;epsp;alphai;p] bein spansteu
 %                                        [sig;epsp;alphai;p] bein dehnsteu
@@ -39,7 +39,7 @@ function [ZVARneu] = OhnoWangImp(ntens, ndi, ink, ZVAR, ink_flag, para)
 %
 %
 %    OUTPUT:
-%        ZVARneu -> neue zustandsvariablen nach Lastinkrement
+%        ZVARneu -> neue Zustandsvariablen nach Lastinkrement
 %        CEP     -> Tangentiale Steifigkeit
 %    
 %    SPANNUNGSZUSTÄNDE:
@@ -78,7 +78,7 @@ if ntens == 6 && ndi == 3
     end
 % ... ESZ    
 elseif ntens == 3 && ndi == 2
-    % ... Setze Abbildungen
+    % ... Setze Abbildungen ???
     
     % ... gehe in die Materialfunktion
     

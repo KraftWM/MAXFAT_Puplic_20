@@ -23,11 +23,11 @@ classdef Kerbsimulation < handle
 %                       varargin     - variabler Input
 %                       'VarName1',var1,'VarName2',var2,...)
 %
-%  Es gibt eine Eingaben, die mindestens nötig sind um die Kerbsimulation
+%  Es gibt Eingaben, die mindestens nötig sind, um die Kerbsimulation
 %  zu definieren. Für alle PUBLIC EIGENSCHAFTEN kann auch der Variablenname
 %  und anschließend der Variablenwert übergeben werden. Die PUBLIC 
 %  EIGENSCHAFTEN können auch nach definition noch geändert werden. Das ist
-%  ziemlich leicht über die Set-Methode der handle Klasse möglich
+%  über die Set-Methode der handle Klasse möglich
 %    
 %__________________________________________________________________________
 %

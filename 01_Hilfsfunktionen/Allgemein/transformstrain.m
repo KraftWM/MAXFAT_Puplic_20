@@ -22,7 +22,7 @@ function eps = transformstrain(varargin)
 % -------------------------------------------------------------------------
 % Modus 2: nargin == 2
 %    phi -> Drehwinkel des lokalen Koord. Winkel zwischen Y,y 
-%           angegeben in bogenmaﬂ
+%           angegeben im Bogenmaﬂ
 %    psi -> Drehwinkel des lokalen Koord. Winkel zwischen Z,z 
 %           angegeben im Bogenmaﬂ
 %
