@@ -6,25 +6,25 @@ function [ZVOUT, dOOUT] = newton_raphson(ZVIN, dOIN,...
                                          dEEPS,... 
                                          lastschritt,...
                                          varargin)
-% Newton-Raphson Verfahren fï¿½r inkrementelle Kerbnï¿½herung
+% Newton-Raphson Verfahren für inkrementelle Kerbnäherung
 %
 % INPUT:
 % ZVIN        -> aktuelle Zustandsvariablen e R^(xx,1)
-%                ersten beiden Tensoren mï¿½ssen Spannungen und plastische
+%                ersten beiden Tensoren müssen Spannungen und plastische
 %                Dehungen sein
 % dOIN        -> Inkrement der Energie e R^(ntens,1)
-% REF...      -> Referenzzustï¿½nde e R^(ntens,1)
+% REF...      -> Referenzzustände e R^(ntens,1)
 % DEL         -> elastische Nachgiebigkeit e R^(ntens x ntens)
-% para        -> Modell Parameter
-% matfun      -> Function handle fï¿½r Materialfunktion
-% verfahren   -> Name des Verfahren, steuert Energie- und
-%                Ableitungsrechnung (str)
-% maxiter     -> maximal erlaubte Anzahl an Iterationen
-% tol         -> Toleranz fï¿½r abbruchbedingung
-% alpha       -> Relaxationskoef.
+% para        -> Modell parameter
+% matfun      -> Function handle für Materialfunktion
+% verfahren   -> Name des Verfahren, steuert energie- und
+%                ableitungsrechnung (str)
+% maxiter     -> maximal erlaubte anzahl an iterationen
+% tol         -> toleranz für abbruchbedingung
+% alpha       -> relaxationskoef.
 % dEEPS       -> erstes Inkrement der Dehnungen e R^(ntens,1)
-% lastschritt -> aktueller Lastschritt (fï¿½r fehlerausgabe) e int
-% varargin    -> variabler Input fï¿½r Energie und Ableitungsrechnung
+% lastschritt -> aktueller Lastschritt (für fehlerausgabe) e int
+% varargin    -> variabler Input für Energie und Ableitungsrechnung
 %
 %
 % OUTPUT:
@@ -33,7 +33,7 @@ function [ZVOUT, dOOUT] = newton_raphson(ZVIN, dOIN,...
 % _________________________________________________________________________
 
 
-% Spannungszustand (aktuell nur fï¿½r ESZ)
+% Spannungszustand (aktuell nur für ESZ)
 ntens = 3;
 ndi = 2;
 
@@ -59,7 +59,7 @@ end
 dEPS = dEEPS;
 [ZVOUT,DEP,CEP] = matfun(ntens,ndi,dEPS,ZVIN,1,para);
 
-% Rauslesen der Zustï¿½nde
+% Rauslesen der Zustände
 SIG = ZVOUT(1:ntens);
 EPS = DEL * SIG + ZVOUT(1+ntens:2*ntens);
 dEPS = EPS - DEL * ZVIN(1:ntens) - ZVIN(ntens+1:2*ntens);
@@ -74,7 +74,7 @@ norm2 = sum(err.*err);
 fiter = zeros(3,maxiter+1);           % speicher zum debuggen
 depsiter = zeros(3,maxiter+1);        % Speicher zum debuggen
 dsigiter = zeros(3,maxiter+1);        % Speicher zum debuggen
-tol_overshot = 1e-1;                  % Toleranz grenze fuer ueberschieï¿½en
+tol_overshot = 1e-1;                  % Toleranz grenze fuer ueberschießen
 iter = 1;
 
 while norm2 > tol
@@ -95,15 +95,15 @@ while norm2 > tol
     dsigiter(:,iter) = dSIG;
     fiter(:,iter) = err;
     
-    % Ableitung des Nï¿½herungsvrefahrens
+    % Ableitung des Näherungsvrefahrens
     [G,P] = ablfun(SIG,EPS,REFSIG,REFEPS,varargin{:});
     derr = G * CEP + P;
     
-    % ï¿½nderung des Dehnungsinkrements
+    % Änderung des Dehnungsinkrements
 	ddEPS = derr\err;
     
-    % dï¿½mpfen der Schrittweite
-    s = 1 - alpha;         % konstante Dï¿½mpfung
+    % dämpfen der Schrittweite
+    s = 1 - alpha;         % konstante Dämpfung
     
     % neues (relaxiertes) Dehnungsinkrement
 	dEPS = dEPS + s .* ddEPS;
@@ -111,7 +111,7 @@ while norm2 > tol
     % Integration mit neuem Dehnungsinkrement
     [ZVOUT,DEP,CEP] = matfun(ntens,ndi,dEPS,ZVIN,1,para);
     
-    % Rauslesen der Zustï¿½nde
+    % Rauslesen der Zustände
     SIG = ZVOUT(1:ntens);
     EPS = DEL * SIG + ZVOUT(1+ntens:2*ntens);
     dSIG = SIG - ZVIN(1:ntens);

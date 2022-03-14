@@ -1,7 +1,7 @@
 function sig = transformstress(varargin)
 % Funktion transformiert Spannungszustand aus dem Koordinantensystem der
 % Kerbe in das lokale Koordinantensystem der Schnittebene. Dabei entsteht 
-% im Allgemeinen aus einem ebenen ein rämlicher Spannungszustand.
+% im Allgemeinen aus einem ebenen - ein raeumlicher Spannungszustand.
 %
 % INPUT:
 %    varargin  - Variabler Input
@@ -25,7 +25,7 @@ function sig = transformstress(varargin)
 %           angegeben im Bogenmaß
 %
 % OUTPUT:
-%   R    -> Rotationstensor für Spannungen (6x3)
+%   R    -> Rotationstensor fuer Spannungen (6x3)
 % _________________________________________________________________________
 
 % unterscheide variablen input

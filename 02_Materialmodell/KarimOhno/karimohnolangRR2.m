@@ -5,7 +5,7 @@ function [ZVARneu] = karimohnolangRR2(desig,ZVAR,para,epara)
 % ! Nur Spannungssteuerung im ESZ
 %
 % QUELLE MODELL:
-% Aus Ohno, Karim et al. 2000 Uniaxial Ratchetting of 316FR steel at room
+% Aus Ohno,Karim et al. 2000 Uniaxial Ratchetting of 316FR steel at room
 % tempreture part II
 %
 % Karim,Ohno 2000 Kinematic hardeningmodel suitable for ratchetting with

@@ -13,7 +13,7 @@ function [ Ext ] = find_extrema( S,K )
 %
 %
 
-% Abfangen falsche Eingabe
+% Abfangen flasche eingabe
 if size(S,2) > size(S,1)
     S = S';
 end

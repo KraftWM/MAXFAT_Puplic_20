@@ -1,9 +1,10 @@
 function [FNP] = RiessFNP(sig)
 %UNTITLED4 Summary of this function goes here
-%   Detailed explanation goes here -> ?
+%   Detailed explanation goes here
+% Aus Masterarbeit Andreas Kern
 
 %--------------------------------------------------------------------------
-%                       Eingabedaten ï¿½berprï¿½fen
+%                       Eingabedaten überprüfen
 %--------------------------------------------------------------------------
 
 if size(sig,2) ~= 3
@@ -19,7 +20,7 @@ sig_yy = sig(:,2)';
 tau_xy = sig(:,3)';
 
 %--------------------------------------------------------------------------
-%                  Berechnung Nichtproportionalitï¿½tskennzahl
+%                  Berechnung Nichtproportionalitätskennzahl
 %--------------------------------------------------------------------------
 X = sig_xx - sig_yy;
 Y = 2*tau_xy;

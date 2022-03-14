@@ -6,28 +6,28 @@ function [ZVOUT, dOOUT] = bisektion(ZVIN, dOIN,...
                                            dEEPS,...
                                            lastschritt,...
                                            varargin)
-% BisektionvVerfahren fï¿½r inkrementelle Kerbnï¿½herung. Zuerst Newton Raphson
-% Verfahren bis ï¿½berschieï¿½en in einer komponente festegestellt wird. Dann
-% Bisektionsverfahren, ohne dass ein weitere Newton Schritt ausgefï¿½hrt
+% BisektionvVerfahren für inkrementelle Kerbnäherung. Zuerst Newton Raphson
+% Verfahren bis überschießen in einer komponente festegestellt wird. Dann
+% Bisektionsverfahren, ohne dass ein weitere Newton Schritt ausgeführt
 % wird.
 %
 % INPUT:
 % ZVIN        -> aktuelle Zustandsvariablen e R^(xx,1)
-%                ersten beiden Tensoren mï¿½ssen Spannungen und plastische
+%                ersten beiden Tensoren müssen Spannungen und plastische
 %                Dehungen sein
 % dOIN        -> Inkrement der Energie e R^(ntens,1)
-% REF...      -> Referenzzustï¿½nde e R^(ntens,1)
+% REF...      -> Referenzzustände e R^(ntens,1)
 % DEL         -> elastische Nachgiebigkeit e R^(ntens x ntens)
 % para        -> Modell Parameter
-% matfun      -> Function handle fï¿½r Materialfunktion
+% matfun      -> Function handle für Materialfunktion
 % verfahren   -> Name des Verfahren, steuert Energie- und
 %                Ableitungsrechnung (str)
 % maxiter     -> maximal erlaubte Anzahl an Iterationen
-% tol         -> Toleranz fï¿½r Abbruchbedingung
-% alpha       -> Relaxationskoef.
+% tol         -> Toleranz für Abbruchbedingung
+% alpha       -> relaxationskoef.
 % dEEPS       -> erstes Inkrement der Dehnungen e R^(ntens,1)
-% lastschritt -> aktueller Lastschritt (fï¿½r fehlerausgabe) e int
-% varargin    -> variabler Input fï¿½r Energie und Ableitungsrechnung
+% lastschritt -> aktueller Lastschritt (für fehlerausgabe) e int
+% varargin    -> variabler Input für Energie und Ableitungsrechnung
 %
 %
 % OUTPUT:
@@ -36,7 +36,7 @@ function [ZVOUT, dOOUT] = bisektion(ZVIN, dOIN,...
 % _________________________________________________________________________
 
 
-% Spannungszustand (aktuell nur fï¿½r ESZ)
+% Spannungszustand (aktuell nur für ESZ)
 ntens = 3;
 ndi = 2;
 
@@ -62,7 +62,7 @@ end
 dEPS = dEEPS;
 [ZVOUT,DEP,CEP] = matfun(ntens,ndi,dEPS,ZVIN,1,para);
 
-% Rauslesen der Zustï¿½nde
+% Rauslesen der Zustände
 SIG = ZVOUT(1:ntens);
 EPS = DEL * SIG + ZVOUT(1+ntens:2*ntens);
 dEPS = EPS - DEL * ZVIN(1:ntens) - ZVIN(ntens+1:2*ntens);
@@ -81,7 +81,7 @@ FP = zeros(3,1);                      % Zielfunktion an Plus Grenze
 FM = zeros(3,1);                      % Zielfunktion an Minus Grenze
 DEP = zeros(3,1);                     % Inkrement an Plus Grenze
 DEM = zeros(3,1);                     % Inkrement an Minus Grenze
-tol_overshot = 1e-1;                   % Toleranz grenze fuer ueberschieï¿½en
+tol_overshot = 1e-1;                   % Toleranz grenze fuer ueberschießen
 verfahren = [ 0, 0, 0 ];              % verwendetes iterationsverfahren 
                                       % 0 = Newton
                                       % 1 = Bisektion
@@ -107,15 +107,15 @@ while norm2 > tol
     
     if sum(verfahren) < 2 % In Mindestens einem Verfahren wird noch Newton 
                           % Verfahren angewandt.
-        % Ableitung des Nï¿½herungsvrefahrens
+        % Ableitung des Näherungsvrefahrens
         [G,P] = ablfun(SIG,EPS,REFSIG,REFEPS,varargin{:});
         derr = G * CEP + P;
 
-        % ï¿½nderung des Dehnungsinkrements
+        % Änderung des Dehnungsinkrements
         ddEPS = derr\err;
 
-        % dï¿½mpfen der Schrittweite
-        s = 1 - alpha;         % konstante Dï¿½mpfung
+        % dämpfen der Schrittweite
+        s = 1 - alpha;         % konstante Dämpfung
 
         % neues (relaxiertes) Dehnungsinkrement nach Newton
         dEPSnewton = dEPS + s .* ddEPS;
@@ -144,7 +144,7 @@ while norm2 > tol
     % Integration mit neuem Dehnungsinkrement
     [ZVOUT,DEP,CEP] = matfun(ntens,ndi,dEPS,ZVIN,1,para);
     
-    % Rauslesen der Zustï¿½nde
+    % Rauslesen der Zustände
     SIG = ZVOUT(1:ntens);
     EPS = DEL * SIG + ZVOUT(1+ntens:2*ntens);
     dSIG = SIG - ZVIN(1:ntens);
@@ -169,7 +169,7 @@ end % Ende Hauptfunktion
 % ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: %
 
 function [deps,fp,fm,dep,dem] = bisek(fp,fm,dep,dem,f,deps) 
-    % Prï¿½ft ob Bisektion ausgefï¿½hrt werden muss und fï¿½hrt sie
+    % Prüft ob Bisektion ausgeführt werden muss und führt sie
     % gegebenenfalls aus
     % INPUT:
     % fp       -> zielfun plus grenze
@@ -183,7 +183,7 @@ function [deps,fp,fm,dep,dem] = bisek(fp,fm,dep,dem,f,deps)
     % deps -> neues/oder alters Dehnungsinkrement
     % .... -> neue grenzen
     
-    % prï¿½fe ob f zielfunktion verbessert
+    % prüfe ob f zielfunktion verbessert
 %     if abs(f) > min(abs(fp),abs(fm))
 %         msg = 'Bisektion gescheitert';
 %         error(msg)
@@ -214,11 +214,11 @@ end % Ende Bisektion
 
 
 % ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: %
-% ::           HILFSFUNKTION ï¿½berschieï¿½en                              :: %
+% ::           HILFSFUNKTION überschießen                              :: %
 % ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: %
 function [deps,verfahren,fp,fm,dep,dem] = overshoot( ...
                       f1,f2,deps1,deps2,depsnewton,tol ) 
-    % Prï¿½ft ob Bisektion ausgefï¿½hrt werden muss und fï¿½hrt sie
+    % Prüft ob Bisektion ausgeführt werden muss und führt sie
     % gegebenenfalls aus
     % INPUT:
     % f1         -> alte zielfunktion in iterationschritt: iter - 1
@@ -226,7 +226,7 @@ function [deps,verfahren,fp,fm,dep,dem] = overshoot( ...
     % deps1      -> altes Inkrement in iterationschritt  : iter - 1
     % deps2      -> neues Inkrement in iterationschritt  : iter
     % depsnewton -> dehnungsinkrement aus newton schritt
-    % tol        -> toleranz welche Potenzunterschiede als ueberschieï¿½en
+    % tol        -> toleranz welche Potenzunterschiede als ueberschießen
     %               bewertet werden
     % OUTPUT:
     % deps       -> neues/oder alters Dehnungsinkrement
@@ -234,10 +234,10 @@ function [deps,verfahren,fp,fm,dep,dem] = overshoot( ...
     % fp,fm      -> zielfunktion plus und minus
     % dep,dem    -> Inkremente plus und minus
     
-    % prï¿½fe vorzeichenwechsel in zielfunktion
+    % prüfe vorzeichenwechsel in zielfunktion
     if f1 * f2 < 0
         
-        % Prï¿½fe ob vorzeichenwechsel auï¿½erhalb der Tolranz ist (VZ wechsel
+        % Prüfe ob vorzeichenwechsel außerhalb der Tolranz ist (VZ wechsel
         % aber trozdem Konvergenz)
         if abs(f2/f1) > tol
             

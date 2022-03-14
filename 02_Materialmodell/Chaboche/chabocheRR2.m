@@ -53,8 +53,8 @@ M = (length(parameter)-5)/2;
 E = parameter(1);
 nu = parameter(2);
 G = E/(2*(1+nu));
-r0 = parameter(end); % r0 nicht verwedent
-% kinematische Verfestigung, kommentierter Code l�schen?
+r0 = parameter(end);
+% kinematische Verfestigung
 % c_i = parameter(3:2+M);
 % r_i = parameter(3+M:2+2*M);
 % h_i = c_i.*r_i;
@@ -221,7 +221,7 @@ dpiter = zeros(1,maxiter+2);     % Speicher plastische dehnungsinkremente
 normpiter = zeros(1,maxiter+2);  % Norm Abbruchbedingung (für Konvergnz Analyse)
 iter = 1;                        % Schleifenzähler 
 tol = 1e-4;                      % toleranz Abbruchbedingung
-tolbs = 1e-6;                    % toleranz iteration Backstresstensor
+% tolbs = 1e-6;                    % toleranz iteration Backstresstensor
 normp = 1;                       % Abbruchbedingung
 
 
@@ -233,9 +233,9 @@ normp = 1;                       % Abbruchbedingung
 theta_i = ones(1,M);
 Gamma = 1;
 % ... Backstress
-alpha_npe = alpha_n; % wird nicht verwendet?
+alpha_npe = alpha_n;
 % ... Isotrope
-Y_npe = Y_n; % wird nicht verwendet?
+Y_npe = Y_n;
 % ... trial Spannungsdeviator
 s_tr = P * sig_tr;
 
@@ -300,7 +300,6 @@ while normp > tol
     end
         
 end % Ende Äußere Iterationsschleife
-% Kommentar l�schen?
 % fprintf('iter = %i normp = %.5f\n',iter,normp)
 % figure(200), hold on
 % semilogy(1:iter-1,normpiter(2:iter),'k--s','LineWidth',1) 
@@ -354,7 +353,7 @@ function ZVARneu = chabocheESZ(...
 % -------------------------------------------------------------------------
 % Zuweisen der Materialparameter
 ntens = 3;                                                                 % Tensorkomponenten
-M = (length(parameter)-5)/2;                                               % Anzahl Backstresstensoren
+M = (length(parameter)-5)/2;                                               % anzahl Backstresstensoren
 nu = parameter(2);
 
 % isotrope Verfestigung
@@ -364,7 +363,7 @@ Qinf = parameter(4);
 % kinematische Verfestigung
 c_i = parameter(5:4+M);
 r_i = parameter(5+M:end-1);
-r0 = parameter(end);                                                       % Startradius Fliessfläche
+r0 = parameter(end);                                                       % startradius fliessfläche
 h_i = c_i.*r_i;
 
 % oft verwendete Konstanden

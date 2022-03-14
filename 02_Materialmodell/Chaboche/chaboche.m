@@ -1,8 +1,8 @@
 function [X_neu,dummy,CEP] = chaboche(ntens,ndi,ink, X, ink_flag, parameter)
 % Materialmodell nach Chaboche mit:
-% Backstresstensoren in Reihe nach Chaboche
+% Backstresstensoren als Reihe nach Chaboche
 % Einzelne Teilbackstresstensoren nach Armstrong-Frederick Kinematik
-% isotrope Verfestigung asympt gegen Grenzwert.
+% isotrope Verfestigung asympt. gegen Grenzwert.
 %
 %   INPUT:
 %         ntens     -> Anzahl Tensorkomponten (in Spannungen)

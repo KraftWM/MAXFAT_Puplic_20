@@ -175,7 +175,7 @@ function ZVARneu = chabocheESZlang(...
 % -------------------------------------------------------------------------
 % Zuweisen der Materialparameter
 ntens = 3;                                                                 % Tensorkomponenten
-% M = (length(para)-8)/4;                                               % Anzahl Backstresstensoren
+% M = (length(para)-8)/4;                                                  % Anzahl Backstresstensoren
 M = (length(para)-5)/2;
 eM = (length(epara)-5)/2;
 % kinematische Verfestigung Materialmodell
@@ -212,7 +212,6 @@ dpiter = zeros(1,maxiter+2);     % Speicher plastische dehnungsinkremente
 normpiter = zeros(1,maxiter+2);  % Norm Abbruchbedingung (für Konvergnz Analyse)
 iter = 1;                        % Schleifenzähler 
 tol = 1e-4;                      % toleranz Abbruchbedingung
-tolbs = 1e-6;                    % toleranz iteration Backstresstensor
 normp = 1;                       % Abbruchbedingung
 
 % -------------------------------------------------------------------------
@@ -220,7 +219,7 @@ normp = 1;                       % Abbruchbedingung
 % ------------------------------------------------------------------------- 
 
 % ... Korrekturfaktoren
-dp_npe = 0;
+% dp_npe = 0;
 etheta_i = ones(1,eM);
 eGamma = 1;
 % ... Isotrope
@@ -280,14 +279,14 @@ while normp > tol
     beta_npe = eY_npe * ebeta_hat / ( eY_npe + dp_npe * sum(eh_i.*etheta_i));
 %     n_npe = w3d2 * (P_hat * beta_npe)/ r0;
     n_npe = sqrt(beta_npe' * P_line * beta_npe); if n_npe == 0; n_npe = mynull; end
-    n_npe = (P_hat * beta_npe)/n_npe; %ungenutzt?
+    n_npe = (P_hat * beta_npe)/n_npe;
 %     fprintf('||n|| = %.15f\n',n_npe' * A * P_line * A * n_npe)
     % ... Prüfe Konvergenz
     normp = abs(1-dpiter(iter)/dpiter(iter-1));
     normpiter(iter) = normp;
     % ... Verhindere Endlosschleifen
     if iter > maxiter + 1
-        msg = ['Keine Konvergenz in Fixpunktiteration im Ohno Wang Modell ',...
+        msg = ['Keine Konvergenz in Fixpunktiteration im Chaboche Modell ',...
                'nach ', num2str(iter),' Iterationen. Aktuelle Fehlernorm: '...
                num2str(normp)];
         warning(msg)

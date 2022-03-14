@@ -186,7 +186,7 @@ else % Ermittle elastischen Anteil xel
         ZVAR = [sig;ZVAR(ntens+1:end)];
     end
     
-    % 3. plastischer Teil des Inkrements
+    % 3. plastischer Teil des inkrements
     ink = (1-xel)*ink;
     
     % Integration je nach Spannungszustand
@@ -210,7 +210,7 @@ else % Ermittle elastischen Anteil xel
                     
     elseif ntens == 3 && ndi == 2 % ESZ
         
-        % Nachgiebigkeitsmatrix
+        % nachgiebigkeitsmatrix
         D = elast_nachgiebigkeit(E,nu,ntens,ndi);
         % statische Matrizen
         [P, P_line, P_hat, A, P_check] = set_maps(ntens,ndi);
@@ -227,7 +227,7 @@ else % Ermittle elastischen Anteil xel
     
     elseif ntens == 2 && ndi == 1 % sigma-tau
         
-        % Nachgiebigkeitsmatrix
+        % nachgiebigkeitsmatrix
         D = elast_nachgiebigkeit(E,nu,ntens,ndi);
         % statische Matrizen
         [P, P_line, P_hat, A, P_check] = set_maps(ntens,ndi);

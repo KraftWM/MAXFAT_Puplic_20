@@ -33,7 +33,7 @@ function [ZVARneu] = ohnowangRR2(ntens, ndi, ink, ZVAR, ink_flag, parameter)
 %           sig_12                     2eps_12
 %  ----------------------------------------------------------------------
 % |  Autor: Jan Kraft 2019 Tu Darmstadt FG Werkstoffmechanik             |
-% |  Stand: August 2021                                                 |
+% |  Stand: August 2021                                                  |
 %  ----------------------------------------------------------------------
 
 
@@ -49,7 +49,7 @@ nu = parameter(2);
 G = E/(2*(1+nu));
 r0 = parameter(end);
 % kinematische Verfestigung
-% c_i = parameter(3:2+M); % kommentierter Code
+% c_i = parameter(3:2+M);
 % r_i = parameter(3+M:2+2*M);
 % h_i = c_i.*r_i;
 % chi_i = parameter(3+2*M:2+3*M);

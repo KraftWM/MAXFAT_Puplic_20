@@ -2,22 +2,22 @@ function [ZVAR0, EZVAR0] = devepsapproachV2( ...
                                    ZVAR0, EZVAR0, para, epara, esigpath, ...
                                    ntens, ndi, material, numink, M,eM, SIGO,...
                                    Outfile)
-% Funktion fï¿½hrt deviatorischen Dehnungsapproach nach Hertl aus
+% Funktion führt deviatorischen Dehnungsapproach nach Hertl aus
 %
-% AKTUELL NUR Fï¿½R ESZ 
+% AKTUELL NUR FÜR ESZ 
 %
 % INPUT:
 %  ZVAR0, EZVAR0 -> Startwerte der zustandsvariabel Mat- und Str.Modell
 %                   (Schon umgestellt auf 3D)
-%  para,epara    -> Parameter fï¿½r mat und str modell
-% esigpath       -> Verweiï¿½ auf Datei mit verlauf der lokalen pseudo
+%  para,epara    -> Parameter für mat und str modell
+% esigpath       -> Verweiß auf Datei mit verlauf der lokalen pseudo
 %                   Spannungen
 % ntens, ndi     -> beschreiben Spannungszustand
 % material       -> definiert welche materialfunktion aufgerufen wird (str)
 % numink         -> Anzahl Inkremente
 %  M             -> Anzahl Backstresstensoren
 %  eM            -> Anzahl Backstresstensoren Strukturmodell
-% SIGO           -> Oberflï¿½chennormalspannung fï¿½r hydrostatische Korrektur
+% SIGO           -> Oberflächennormalspannung für hydrostatische Korrektur
 %                   (0 im ESZ)
 % Outfile        -> Name der Datei in der die Ergebnisse geschrieben werden
 %
@@ -28,23 +28,23 @@ function [ZVAR0, EZVAR0] = devepsapproachV2( ...
 % Autor: Jan Kraft                                                        |
 % Stand: April 2021                                                       |
 % ------------------------------------------------------------------------
-% Prï¿½fe ob ebener Spannungszustand
+% Prüfe ob ebener Spannungszustand
 if ntens ~= 3 && ndi ~= 2
-    msg = 'Pseudo Stress Approach akt. nur fï¿½r ESZ gedacht';
+    msg = 'Pseudo Stress Approach akt. nur für ESZ gedacht';
     error(msg)
 end
 
-% ï¿½ffne Inputdatei 
+% Öffne Inputdatei 
 Infile = fopen(esigpath,'r');
 % Startwerte
 DATA0 = fread(Infile,[ntens+1,1],'double');
-% ï¿½ffne Ergebnissdatei
+% Öffne Ergebnissdatei
 fout = fopen(Outfile,'w');
 % fzvarout = fopen([Outfile(1:end-4),'.zvar'],'w');    % Zustandsvariablen (nur zum debuggen)
 % Buffer
 BSize = 10000;
 
-% Elastizitï¿½tsparameter
+% Elastizitätsparameter
 E = para(1);
 nu = para(2);
 K = E/(3*(1-2*nu)); % kompressionsmodul
@@ -125,12 +125,12 @@ end
 ntens = 6;
 ndi = 3;
 
-% Ausfï¿½hren Kerbsimulation (Hauptschleife ï¿½ber alle Werte in esigpath)
+% Ausführen Kerbsimulation (Hauptschleife über alle Werte in esigpath)
 aktdat = 2;
 while aktdat <= numink
-    space = min(BSize,numink-aktdat+1);                                    % Niemals mehr Speicher als Buffergrï¿½ï¿½e freigeben
+    space = min(BSize,numink-aktdat+1);                                    % Niemals mehr Speicher als Buffergröße freigeben
     % Einlesen Teilwerte aus pseudo Spannungsverlauf
-    DATA = fread(Infile,[4,space],'double');                         % Einlesen Durchlaufzï¿½hler und pseudo Spannungen
+    DATA = fread(Infile,[4,space],'double');                         % Einlesen Durchlaufzähler und pseudo Spannungen
     % Setzten Startwerte
     DATA = [DATA0,DATA];
     ESIG = DATA(2:4,:);
@@ -159,7 +159,7 @@ while aktdat <= numink
     end
     
     
-    % Hauptschleife ï¿½ber alle Pseudo Inkremente
+    % Hauptschleife über alle Pseudo inkremente
     for ii = 2 : space + 1
         
         % Pseudo Spannungsinkrement
@@ -195,13 +195,13 @@ while aktdat <= numink
         % Hydrostantische Korrektur
         ZVAR(1:ndi,ii) = ZVAR(1:ndi,ii) + dSIGHYD;
         
-    end % Ende Schleife ï¿½ber Inkremente
+    end % Ende Schleife über Inkremente
     % pseudo Spannungen & DLZ am Ende
     DATA0 = DATA(:,space+1);
     % Zustandsvariablen am Ende
     ZVAR0 = ZVAR(:,space + 1);
     EZVAR0 = EZVAR(:,space + 1);
-    % Herrauslesen der lokalen Grï¿½ï¿½en je nach Material
+    % Herrauslesen der lokalen Größen je nach Material
     if aktdat == 2
         SIG = ZVAR([1 2 4],:);
         EPSP = ZVAR([7 8 10],:);
@@ -219,15 +219,15 @@ while aktdat <= numink
     fwrite(fout,[DLZ;SIG;EPS],'double');
     % Rausschreiben Zustandsvariablen (nur zum debuggen)
 %     fwrite(fzvarout,[ZVAR(:,2:end);EZVAR(:,2:end)],'double');
-    % Inkrementiere Zeiger auf nï¿½chsten Index in ESIGALL
-    aktdat = aktdat + space;                                               % Nï¿½chster Neuer Wert im nï¿½chsten Schleifendurchlauf     
-end % Ende Schleife ï¿½ber alle pseudo Spannungen
+    % Inkrementiere Zeiger auf nächsten Index in ESIGALL
+    aktdat = aktdat + space;                                               % Nächster Neuer Wert im nächsten Schleifendurchlauf     
+end % Ende Schleife über alle pseudo Spannungen
 
 % Umstellen Zustandsvariablen auf ESZ
 [ZVAR0] = umstellen_auf_ESZ(ZVAR0,material,M);
 [EZVAR0] = umstellen_auf_ESZ(EZVAR0,material,eM);
 
-% Schlieï¿½e Output & Input File
+% Schließe Output & Input File
 fclose(fout);
 fclose(Infile);
 % fclose(fzvarout);

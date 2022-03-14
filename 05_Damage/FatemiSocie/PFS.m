@@ -394,10 +394,10 @@ methods
             end
         end % Ende Berechnung Schädigungsparameter
         
-        % ... Rainflowzählung
+        % ... rainflowzählung
         function P = rainflow(obj,sigepsfile,ndata,phi,psi)
             %==============================================================
-            % rainflow Zählung und Schädigungsbewertung
+            % rainflow zählung und Schädigungsbewertung
             %
             %==============================================================
             % Eingabeparameter:

@@ -1,6 +1,6 @@
 function dPHI = modneuberenergy(SIG,dSIG,EPS,dEPS,REFSIG,REFEPS,...
                                 EEPS,REFEEPS,dEEPS)
-% obacht Rï¿½ckgabewert keine Energie-> was dann und was macht Funktion?
+% obacht rückgabewert keine Energie
     dTSED = (SIG - REFSIG) .* dEPS + ... 
             (EPS - REFEPS) .* dSIG;
 %     phi2 = (EEPS(2) - REFEEPS(2)) * dEPS(1) - ...        % ee_zz*de_yy

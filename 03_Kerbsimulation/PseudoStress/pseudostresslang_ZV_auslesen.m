@@ -5,9 +5,9 @@ function [SIG, EPS, EPSP, ALPHAI, R, P, ZVAR1, EZVAR1] = ...
 %
 % INPUT:
 % ZVAR              - Zustandsvariablen
-% material          - name des Plastizitaetsmodells
-% para              - Parameter des Plastizitï¿½smodells !!! an die para
-%                     kï¿½nnten die epara gehï¿½ngt sein
+% material          - name des plastizitätsmodells
+% para              - Parameter des Plastizitäsmodells !!! an die para
+%                     könnten die epara gehängt sein
 % epara             - Parameter des Strukturmodells
 % M                 - Anzahl Backstresstensoren
 %
@@ -22,13 +22,13 @@ ndi = 2;
 
 
 % =========================================================================S
-% Herrauslesen der lokalen Grï¿½ï¿½en je nach Material
+% Herrauslesen der lokalen Größen je nach Material
 switch material
     % ---------------------------------------------------------------------
     case 'Chaboche'
         
         % =================================================================
-        % Herrauslesen grï¿½ï¿½en
+        % Herrauslesen größen
         % Abbildungen
         P = set_maps(ntens,ndi);
         % Steifigkeitsmatrix
@@ -36,7 +36,7 @@ switch material
         DEL = elast_nachgiebigkeit(para(1),para(2),ntens,ndi);
         % pseudo gesamtdehnung 
         EEPS =  ZVAR(1:ntens,:);
-        % plastische Dehnung
+        % plastische dehnung
         EPSP = ZVAR(ntens+1:2*ntens,:);
         % Pseudo (elastische9 Spannungen
         ESIG = CEL * (EEPS - EPSP);
@@ -48,9 +48,9 @@ switch material
         ALPHAI = reshape(ZVAR((eM+2)*ntens+3:(eM+M+2)*ntens+2,:),ntens,M,numink);
 %         ALPHAI = reshape(ZVAR((M+2)*ntens+2:(2*M+2)*ntens+1,:),ntens,M,numink);
         % ... Radius nicht in ZVAR
-%         % plastische Bogenlï¿½nge
+%         % plastische Bogenlänge
 %         P = ZVAR((M+2)*ntens+1,:);
-%         % Ausgeben der Gedï¿½chtnissflï¿½che anstatt R
+%         % Ausgeben der Gedächtnissfläche anstatt R
 %         q = para(3);
 %         b = para(4); if b==0, b=1e-40; end 
 %         r0 = para(5+2*M);
@@ -62,7 +62,7 @@ switch material
 %         R = r0 + Qinf*(1-exp(-b.*P));
 %         ER = er0 + eQinf*(1-exp(-eb.*P));
         % ... Radius in ZVAR
-        % plastische Bogenlï¿½nge
+        % plastische Bogenlänge
         P = ZVAR((eM+2)*ntens+2,:);
         % Radien
         R = ZVAR((eM+M+2)*ntens+3,:);
@@ -94,7 +94,7 @@ switch material
     case 'OhnoWang'
         
         % =================================================================
-        % Herrauslesen grï¿½ï¿½en
+        % Herrauslesen größen
         % Abbildungen
         P = set_maps(ntens,ndi);
         % Steifigkeitsmatrix
@@ -102,7 +102,7 @@ switch material
         DEL = elast_nachgiebigkeit(para(1),para(2),ntens,ndi);
         % pseudo gesamtdehnung 
         EEPS =  ZVAR(1:ntens,:);
-        % plastische Dehnung
+        % plastische dehnung
         EPSP = ZVAR(ntens+1:2*ntens,:);
         % Pseudo (elastische9 Spannungen
         ESIG = CEL * (EEPS - EPSP);
@@ -110,11 +110,11 @@ switch material
         ES = P * ESIG;
         % pseudo backstress
         EALPHAI = reshape(ZVAR(2*ntens+1:(eM+2)*ntens,:),ntens,eM,numink);
-        % plastische Bogenlï¿½nge
+        % plastische Bogenlänge
         P = ZVAR((eM+2)*ntens+1,:);
         % "realer" Backstress
         ALPHAI = reshape(ZVAR((eM+2)*ntens+2:(eM+M+2)*ntens+1,:),ntens,M,numink);
-        % Ausgeben der Gedï¿½chtnissflï¿½che anstatt R
+        % Ausgeben der Gedächtnissfläche anstatt R
         R = para(3+3*M) * ones(1,numink);
         ER = epara(3+3*eM) * ones(1,numink);
         % =================================================================
@@ -146,7 +146,7 @@ switch material
     case 'KarimOhno'
         
         % =================================================================
-        % Herrauslesen grï¿½ï¿½en
+        % Herrauslesen größen
         % Abbildungen
         P = set_maps(ntens,ndi);
         % Steifigkeitsmatrix
@@ -154,7 +154,7 @@ switch material
         DEL = elast_nachgiebigkeit(para(1),para(2),ntens,ndi);
         % pseudo gesamtdehnung 
         EEPS =  ZVAR(1:ntens,:);
-        % plastische Dehnung
+        % plastische dehnung
         EPSP = ZVAR(ntens+1:2*ntens,:);
         % Pseudo (elastische9 Spannungen
         ESIG = CEL * (EEPS - EPSP);
@@ -162,11 +162,11 @@ switch material
         ES = P * ESIG;
         % pseudo backstress
         EALPHAI = reshape(ZVAR(2*ntens+1:(eM+2)*ntens,:),ntens,eM,numink);
-        % plastische Bogenlï¿½nge
+        % plastische Bogenlänge
         P = ZVAR((eM+2)*ntens+1,:);
         % "realer" Backstress
         ALPHAI = reshape(ZVAR((eM+2)*ntens+2:(eM+M+2)*ntens+1,:),ntens,M,numink);
-        % Ausgeben der Gedï¿½chtnissflï¿½che anstatt R
+        % Ausgeben der Gedächtnissfläche anstatt R
         R = para(3+3*M) * ones(1,numink);
         ER = epara(3+3*eM) * ones(1,numink);
         % =================================================================
@@ -196,7 +196,7 @@ switch material
     case 'Jiang'
         
         % =================================================================
-        % Herrauslesen grï¿½ï¿½en
+        % Herrauslesen größen
         % Abbildungen
         P = set_maps(ntens,ndi);
         % Steifigkeitsmatrix
@@ -204,7 +204,7 @@ switch material
         DEL = elast_nachgiebigkeit(para(1),para(2),ntens,ndi);
         % pseudo gesamtdehnung 
         EEPS =  ZVAR(1:ntens,:);
-        % plastische Dehnung
+        % plastische dehnung
         EPSP = ZVAR(ntens+1:2*ntens,:);
         % Pseudo (elastische9 Spannungen
         ESIG = CEL * (EEPS - EPSP);
@@ -212,21 +212,21 @@ switch material
         ES = P * ESIG;
         % pseudo backstress
         EALPHAI = reshape(ZVAR(2*ntens+1:(eM+2)*ntens,:),ntens,eM,numink);
-        % plastische Bogenlï¿½nge
+        % plastische Bogenlänge
         P = ZVAR((eM+2)*ntens+1,:);
-        % pseudo gedï¿½chnissflï¿½che
+        % pseudo gedächnissfläche
         ERM = ZVAR((eM+2)*ntens+2,:);
         % "realer" Backstress
         ALPHAI = reshape(ZVAR((eM+2)*ntens+3:(eM+M+2)*ntens+2,:),ntens,M,numink);
-        % "reale" gedï¿½chtnissflï¿½che
+        % "reale" gedächtnissfläche
         RM = ZVAR((eM+M+2)*ntens+3,:);
-        % Ausgeben der Gedï¿½chtnissflï¿½che anstatt R
+        % Ausgeben der Gedächtnissfläche anstatt R
         R = RM;
 
         % =================================================================
         % berechnen des "realen" Spannungsdeviators und so
 
-        % Radien Flieï¿½flï¿½chen
+        % Radien Fließflächen
         ak = para(5);
         ck = para(6);
         k1 = para(7);
@@ -260,7 +260,7 @@ switch material
     case 'OWT'
         
         % =================================================================
-        % Herrauslesen grï¿½ï¿½en 
+        % Herrauslesen größen 
         % Abbildungen
         P = set_maps(ntens,ndi);
         % Steifigkeitsmatrix
@@ -268,7 +268,7 @@ switch material
         DEL = elast_nachgiebigkeit(para(1),para(2),ntens,ndi);
         % pseudo gesamtdehnung 
         EEPS =  ZVAR(1:ntens,:);
-        % plastische Dehnung
+        % plastische dehnung
         EPSP = ZVAR(ntens+1:2*ntens,:);
         % Pseudo (elastische9 Spannungen
         ESIG = CEL * (EEPS - EPSP);
@@ -276,17 +276,17 @@ switch material
         ES = P * ESIG;
         % pseudo backstress
         EALPHAI = reshape(ZVAR(2*ntens+1:(eM+2)*ntens,:),ntens,eM,numink);
-        % plastische Bogenlï¿½nge
+        % plastische Bogenlänge
         P = ZVAR((eM+2)*ntens+1,:);
-        % zusï¿½tzlicher Radius FF Strukturmodell
+        % zusätzlicher Radius FF Strukturmodell
         EQ = ZVAR((eM+2)*ntens+2,:);
-        % !!! Zusï¿½tzliche Parameter nicht mit Auslesen (werden fï¿½r die
+        % !!! Zusätzliche Parameter nicht mit Auslesen (werden für die
         % Auswertung nicht gebraucht
         % "realer" Backstress
         ALPHAI = reshape(ZVAR((3+eM+(ntens+1)/2)*ntens+5 : (3+eM+M+(ntens+1)/2)*ntens+4,: ),ntens,M,numink);
-        % zusï¿½tzlicher Radius FF Materialmodell
+        % zusätzlicher Radius FF Materialmodell
         Q = ZVAR((3+eM+M+(ntens+1)/2)*ntens+5,:);
-        % Radien der Flieï¿½flï¿½chen Struktur- & Materialmodell
+        % Radien der Fließflächen Struktur- & Materialmodell
         R = para(11+3*M) * ones(1,numink) + Q;
         ER = epara(11+3*eM) * ones(1,numink) + EQ;
         

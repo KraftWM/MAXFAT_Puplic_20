@@ -6,7 +6,7 @@ function [esig,eepsp] = uniax_esed(E,nstrich,sig,epsp)
 %
 % INPUT:
 % E        -> Emodul
-% nstrich  -> zyklischer Parameter aus Ramberg Osgood
+% nstrich  -> zyklischer Parameter aus ramberg osgood
 % sig      -> ELATISCH PLASTISCHE Spannungen
 % epsp     -> PLASTISCHE Dehnungen
 %

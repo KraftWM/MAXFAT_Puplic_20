@@ -1,6 +1,6 @@
 function [ZVARneu] = ohnowangenergy(domega,ZVAR,para,GHAT,PHAT)
 % Ohno Wang Plastizitätsmodell Implementierung nach Döring.
-% implementiert für die energiegesteuerte Integration bei inkrementellen
+% Implementiert für die energiegesteuerte Integration bei inkrementellen
 % Kerbnäherungen
 %
 % INPUT:

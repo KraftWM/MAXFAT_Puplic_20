@@ -1,6 +1,6 @@
 function [ZVARneu] = karimohnoRR2(ntens, ndi, ink, ZVAR, ink_flag, parameter)
 % Implementierung des Materialmodells nach Karim und Ohno,
-% kinematische Verfestigung ist lineare Interpolation zwischen Armstrong
+% Kinematische Verfestigung ist lineare Interpolation zwischen Armstrong
 % Fredrick und OhnoWang Modell I Kinematik
 %
 % QUELLE MODELL:

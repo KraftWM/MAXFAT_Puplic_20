@@ -1,6 +1,6 @@
 classdef PZ2 < handle
 % -------------------------------------------------------------------------
-% Klassendefinition: Schädigungsparameter PZ
+% Klassendefinition: Schädigungsparameter PZ 
 % Zusammenfassung aller Definitionen/ Optionen & Funktionen für
 % Schädigungsparameter PZ, nach Hertel
 %
@@ -80,7 +80,7 @@ classdef PZ2 < handle
 % FUNKTIONEN:
 % Normal:
 %      dwl2weffwl     -> berechne Weff - Wöhlerlinie aus Dehnungswöhlerlinie
-%      rainflow       -> Rainflowzählung mit hcm
+%      rainflow       -> rainflowzählung mit hcm
 %    kurzriss_mode1   -> berechne PZ bei Mode I
 %    kurzriss_mode23  -> berechne PZ bei Mode II & III
 %    lebensdauer      -> Lebensdauerrechnung

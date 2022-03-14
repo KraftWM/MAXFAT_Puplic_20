@@ -1,6 +1,7 @@
 function [FNP] = GaierFNP(sig)
 %UNTITLED8 Summary of this function goes here
-%   Detailed explanation goes here ->
+%   Detailed explanation goes here
+% Aus Masterarbeit Andreas Kern
 
 %--------------------------------------------------------------------------
 %                      Eingabedaten auswerten
@@ -29,7 +30,7 @@ else
 end
 
 %--------------------------------------------------------------------------
-%                  Berechnung Nichtproportionalitï¿½tskennzahl
+%                  Berechnung Nichtproportionalitätskennzahl
 %--------------------------------------------------------------------------
 
 S = [sig_xx; sqrt(2)*tau_xy; sig_yy; sqrt(2)*tau_xz; sig_zz; sqrt(2)*tau_yz]';

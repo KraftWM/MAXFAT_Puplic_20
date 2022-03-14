@@ -13,7 +13,6 @@ function [ZVARneu] = chabochelang(desig,ZVAR,para,epara)
 %
 %
 % TODO: ersetzte zentrale Differenzen in Newtonverfahren durch analytische
-% --> wird das noch gemacht?
 % Ableitung
 %
 %   INPUT:

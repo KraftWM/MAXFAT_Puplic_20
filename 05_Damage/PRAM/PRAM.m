@@ -170,10 +170,10 @@ methods
             % end
             
             % -------------------------------------------------------------
-            % Schwingweite der Primären Schädiungsgröße (im normalfall Normaldehnung)
+            % Schwingweite der Primären Schädiungsgröße (im Normalfall Normaldehnung)
             % deps = DATA(cc,io_auf) - DATA(cc,iu_auf);     % am aufsteigenden Ast
             % deps = DATA(cc,io_ab) - DATA(cc,iu_ab);       % am absteigenden Ast
-            deps = abs( DATA(obj.cc,I) - DATA(obj.cc,J) );        % willkürlich definiert
+            deps = abs( DATA(obj.cc,I) - DATA(obj.cc,J) );  % willkürlich definiert
             %... amplitude
             epsa = 0.5*deps;
             
@@ -202,10 +202,10 @@ methods
             end
         end % Ende Berechnung Schädigungsparameter
         
-        % ... Rainflowzählung
+        % ... rainflowzählung
         function P = rainflow(obj,sigepsfile,ndata,phi,psi)
             %==============================================================
-            % rainflow Zählung und Schädigungsbewertung
+            % rainflow zählung und Schädigungsbewertung
             %
             %==============================================================
             % Eingabeparameter:

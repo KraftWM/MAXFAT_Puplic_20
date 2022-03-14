@@ -1,6 +1,6 @@
 function [ZVARneu] = OWTlang(desig, ZVAR, para, epara)
 %
-% (O)hno (W)ang (T)anaka für pseudo Stress approach nach Ansatz 
+% (O)hno (W)ang (T)anaka für pseudo Stress approach nach Asatz 
 % von Lang
 %
 % !!!!!!!!!! Nur Spannungssteuerung im ESZ
@@ -16,13 +16,13 @@ function [ZVARneu] = OWTlang(desig, ZVAR, para, epara)
 % Implentierung nach Döring
 %
 %   INPUT:
-%    desig      -> Inkrement in pseudo Spannungen
+%    desig      -> Inkrement in pseudo spannungen
 %    ZVAR       -> Zustandsvariablen
 %    para       -> Parameter des Pseudo Modells und des Materialmodells
-%    epara      -> "?
+%    epara      -> "
 %
 %   OUTPUT:
-%    ZVARneu    -> neue Zustandsvariablen nach Lastinkrement
+%    ZVARneu    -> neue zustandsvariablen nach Lastinkrement
 %__________________________________________________________________________
 %
 % Zustandsvariablen:
