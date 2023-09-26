@@ -12,12 +12,11 @@
 clear 
 clc
 % Füge alle Funktionen Matlab Pfad hinzu
-% !!! Kommentieren aus wenn aus 06_README gesartet wird
 % run ../startup
 
 %% Definitionen Rechnung
 
-outpath = '../00_Temp';                % Name des Output Folders
+outpath = '00_Temp';                % Name des Output Folders
 jobpart = 'K05_NP_';                   % Name der Rechnung
 
 if ~exist(outpath,'dir')
@@ -26,6 +25,8 @@ end
 
 %% Definition Materialmodell
 
+% Aus Versuchen
+% statisch
 E = 204000;                            % E-Modul 
 nu = 0.3;                              % Querdehnzahl 
 Rm = 541;                              % Zugfestigkeit 
@@ -35,6 +36,15 @@ ns = 0.138;%    0.193;%                % Verfestigungsexponent
 % Dehnungswoehlerlinie
 sf = 762; ef = 0.415; b = -0.08; c = -0.556;
 ND=5e5; 
+
+
+% % Abgeschätzt
+% wsgruppe = 'Stahl';
+% Rm = 541;
+% [E,nu] = StatischFKM(wsgruppe);                                            % Elastisches Materialverhalten
+% [Ks,ns] = RambergOsgoodFKM(wsgruppe,Rm);                                   % zyklisches Materialverhalten
+% [sf,ef,b,c] = DehnungsWoehlerlinie_Waechter(wsgruppe,Rm);                  % DehnungsWL
+% ND = 5e5;                                                                  % Dauerfestigkeit
 
 %% Definitionen Bauteil
 
@@ -106,13 +116,15 @@ Msig = MittelspannungseinflussFKM(wsgruppe,Rm);
 % Absicherung Bauteilwoehlerlinie
 fram = AbsichernBauteilWoehlerlinie_Pram(P_A,n,KPR,f0025);
 % Pfs - Woehlerlinie (vorlaufig)
-[Pfs_WS_stuetz,Pfs_WSD_stuetz,d1_fs,d2_fs] = ...
-                      Pfs_Woehlerlinie(Rm,wsgruppe);
+[Pfs_WS_stuetz,Pfs_WSD_stuetz,d1_fs,d2_fs,kfs,f0025] = ...
+                      Pfs_WoehlerlinieV2(Rm,wsgruppe);
+% Absichern Bauteilwoehlerlinie
+ffs = AbsichernBauteilWoehlerlinie_Pfs(P_A,n,KPR,f0025);
 % Pz - Woehlerlinie (vorlaufig aus Praj Woehlerlinie)
 [Pz_WS_stuetz,Pz_WSD_stuetz,d_z,f0025] = ...
                       Pz_Woehlerlinie(Rm,wsgruppe);
 % Absicherung Bauteilwoehlerlinie
-fraj = AbsichernBauteilWoehlerlinie_Praj(P_A,n,KPR,f0025);
+fz = AbsichernBauteilWoehlerlinie_Pz(P_A,n,KPR,f0025);
 
 %% Rechnung 
 
@@ -122,7 +134,6 @@ fraj = AbsichernBauteilWoehlerlinie_Praj(P_A,n,KPR,f0025);
 % können diese auch parallel ausgeführt werden.
 
 % parfor i = 1:size(AMP,2) % Parallele Rechnung, ! optdisplay auf 0 setzten
-
 for i = 1:size(AMP,2) % Sequenzielle Rechnung    
     % Amplitude aktueller Versuch
     amp = AMP(:,i);
@@ -150,17 +161,18 @@ for i = 1:size(AMP,2) % Sequenzielle Rechnung
     Rp02s = Ks*0.002^ns;
     sigF = 0.5 *(Rm+Rp02s);  % Fließgrenze als Mittelwert aus Rp02 und Rm
     Pfs = PFS(E,nu,sigF,sf,ef,b,c,ND,'nst',n);
-    Pfs_s = PFS_stuetz(E,nu,Pfs.kfs,Pfs_WS_stuetz,d1_fs,d2_fs,fram);
+    Pfs_s = PFS_stuetz(E,nu,kfs,Pfs_WS_stuetz,d1_fs,d2_fs,ffs,...
+                       'N_stuetz',100);
     % Definition einer Instanz des Pramaters PZ
     % 1. Pz aus Dehnungs-WL
     % 2. Pz_stuetz anhand abgeschaetzter Stuetzstellen
     Pz = PZ2(E,nu,Rm,Ks,ns,sf,ef,b,c,ND,'nst',nst,'Gsig',Gsig,'Gtau',Gtau);
-    Pz_s = PZ2_stuetz(E,nu,sigF,Pz_WS_stuetz,d_z,fraj,...
+    Pz_s = PZ2_stuetz(E,nu,sigF,Pz_WS_stuetz,d_z,fz,...
            'Pz_WSD_stuetz',Pz_WSD_stuetz,'Gsig',Gsig,'Gtau',Gtau);
     % Zusammenfassen aller Instanzen der definierten Schaedigungsparameter
     % als cell array
     DMGs = {Pram, Pram_s, Pfs, Pfs_s, Pz, Pz_s};
-%     DMGs = {Pram_s, Pfs_s, Pz_s};
+%     DMGs = {Pram, Pram_s, Pfs, Pfs_s};
     % winkel = [phi_max, phi_min, dphi, psi_max, psi_min, dpsi]
     winkel = [90 0 9 45 0 45];
     % Funktion zum berechnen der Anrisslebensdauer

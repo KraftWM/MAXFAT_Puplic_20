@@ -313,7 +313,6 @@ methods
             % dgam = DATA(cc,io_auf) - DATA(cc,iu_auf);     % am aufsteigenden Ast
             % dgam = DATA(cc,io_ab) - DATA(cc,iu_ab);       % am absteigenden Ast
             gam_a = 0.5 * abs( DATA(obj.cc,I) - DATA(obj.cc,J) );        % willkürlich definiert
-              
             % -------------------------------------------------------------------------
             % Maximale und minimale Normalspannung
             snmax = max(DATA(1,I:K));
@@ -329,6 +328,7 @@ methods
                 % ... init mit Startwert
                 P = gam_a * ( 1 + obj.kfs * snmax );
                 D = obj.damage_akk(P,0);
+                
                 if D > 0
                     N = 1/D;
                     %                 N = 1000;
@@ -336,18 +336,18 @@ methods
                         obj.sf,obj.ef,obj.b,obj.c,...
                         obj.sigF,obj.G,obj.nu,obj.nst);
                     % ... Schleife Newtonverfahren
-                    %                 fiter = zeros(obj.maxiter,3);   % Debugg speicher
+                    fiter = zeros(obj.maxiter,3);   % Debugg speicher
                     iter = 1;
                     while abs(f) > obj.toleranz
                         % ... ableitung (Numerisch)
-                        %                     obj.dN = max([floor(N/10000) 1]);
-                        %                     fp = obj.zielfun(N+obj.dN,gam_a,snmax,obj.gf,obj.tf,obj.bg,obj.cg,...
-                        %                                      obj.sf,obj.ef,obj.b,obj.c,...
-                        %                                      obj.sigF,obj.G,obj.nu,obj.nst);
-                        %                     fm = obj.zielfun(N-obj.dN,gam_a,snmax,obj.gf,obj.tf,obj.bg,obj.cg,...
-                        %                                      obj.sf,obj.ef,obj.b,obj.c,...
-                        %                                      obj.sigF,obj.G,obj.nu,obj.nst);
-                        %                     dfdN = (fp - fm)/(2*obj.dN);
+%                         obj.dN = max([floor(N/10000) 1]);
+%                         fp = obj.zielfun(N+obj.dN,gam_a,snmax,obj.gf,obj.tf,obj.bg,obj.cg,...
+%                             obj.sf,obj.ef,obj.b,obj.c,...
+%                             obj.sigF,obj.G,obj.nu,obj.nst);
+%                         fm = obj.zielfun(N-obj.dN,gam_a,snmax,obj.gf,obj.tf,obj.bg,obj.cg,...
+%                             obj.sf,obj.ef,obj.b,obj.c,...
+%                             obj.sigF,obj.G,obj.nu,obj.nst);
+%                         dfdN = (fp - fm)/(2*obj.dN);
                         
                         % ... ableitung (analytisch)
                         dfdN = obj.Diffzielfun(N,gam_a,snmax,...
@@ -355,7 +355,7 @@ methods
                             obj.sf,obj.ef,obj.b,obj.c,...
                             obj.sigF,obj.G,obj.nu,obj.nst);
                         % ... Debugg Speicher
-                        %                     fiter(iter,:) = [N,f,dfdN];
+                        fiter(iter,:) = [N,f,dfdN];
                         % ... neue Versagensschwingspielzahl
                         N = N - f/dfdN;
                         if N < 1
@@ -377,12 +377,10 @@ methods
                                 'iter=',num2str(iter),' ', ...
                                 'N=',num2str(N),' ', ...
                                 'zielfun=',num2str(f),' '];
-%                             warning(msg)
+                            warning(msg)
                             break;
                         end
                     end % Ende Newtonverfahren
-                    % ... Debugg Speicher
-%                     fiter(iter,:) = [N,f,NaN];
                 else
                     N = obj.dauerfest;
                 end
@@ -646,7 +644,7 @@ methods
         end % Ende hcm
         
         % ... Lebensdauer Rechnung 
-        function [DL,SSP] = lebensdauer(obj,P)
+        function [DL,SSP,PDam] = lebensdauer(obj,P,ndl)
             % Funktion rechnet Lebensdauern aus Schädigungsparametern
             %
             % INPUT:
@@ -654,23 +652,29 @@ methods
             %                  1.Zeile Schwingspiele prim. Schädigungsvariable
             %                  2.Zeile Schädigungsparameter
             %                  3.Zeile Durchläufe
-            %
+            % ndl            - Durchläufe der Lastfolge, die Simuliert
+            %                  wurden
             % OUTPUT:
             % DL             - Durchläufe
             % SSP            - Schwingspiele
+            % P              - Erweitert um 
+            %                  4. Zeile aktueller Schädigungsbeitrag
+            %                  5. Zeile akkumilierte Schädigung
             %______________________________________________________________
             
             %--------------------------------------------------------------
             % Schädigungsrechnunge
-            nP = size(P,2);            % Anzahl Werte in P             
+            nP = size(P,2);            % Anzahl Werte in P     
+            PDam = zeros(2,nP);        % Speicher für Schädigung
             Dsum = 0;                  % Schadenssumme
             Dlast = 0;                 % Schädigung letzter Durchlauf
-            ndl = ceil(max(P(3,:)));   % maximale Anzahl an Durchläufen
+%             ndl = ceil(max(P(3,:)));   % maximale Anzahl an Durchläufen
             idam = 0;                  % Zeiger auf den Wert an dem Dsum = 1
             ilast = 1;                 % Zeiger auf ersten Wert des letzten Durchlaufs
             for i = 1: nP
                 % ... Schädigung aus WL
                 [Dakt,Dsum] = obj.damage_akk(P(2,i),Dsum);
+                PDam(:,i) = [Dakt;Dsum];
                 % ... Schädigung des letzten Durchlaufsspeichern
                 if P(3,i) > ndl - 1
                     Dlast = Dlast + Dakt;
@@ -794,13 +798,16 @@ methods
         function PN = dwl2pwl(E,nu,sf,ef,b,c,ND,kfs,nst,miner)
             % ... faktor zum verschieben der WL !!! Ausgestellt
             fak = 1;
-%             fak = nst^(1/b);            
+%             fak = sqrt(nst)^(1/b);            
             % ... WL
-            npt = 400;                % Anzahl Punkte auf WL
-            PN = zeros(2,npt);      % Speicher (1.Zeile = Ssp, 2.Zeile = P)
+            Nstuetz = [1,100,100000];            % Stützpunkte Wöhlerlinie
+%             Nstuetz = [1,10,100,1000,10000,100000];
+            npt = length(Nstuetz);                   % Anzahl Punkte auf WL
+            PN = zeros(2,npt);                       % Speicher (1.Zeile = Ssp, 2.Zeile = P)
             for i = 1:npt
                 % ... Punkt N
-                N = ND^((i-1)/(npt-1));
+%                 N = ND^((i-1)/(npt-1));
+                N = Nstuetz(i);
                 % ... Punkt P
                 P = ( (1+nu)*sf/E*(2*N*fak)^b + 1.5*ef*(2*N*fak)^c )...
                         * (1 + kfs * 0.5 * sf * (2*N*fak) ^ b);
@@ -810,6 +817,15 @@ methods
                 PN(1,i) = log10(N);
                 PN(2,i) = log10(P);
             end
+
+            % ... Dauerfestigkeit mit Steigung aus Abschnitt 1e3<N<1e5
+            % Steigung & konstante ln(N) = k * ln(P) + m
+            k = (PN(1,npt) - PN(1,npt-1))/(PN(2,npt) - PN(2,npt-1));
+            m = PN(1,npt) - k * PN(2,npt);
+            % Dauerfestigkeit
+            npt = npt + 1;
+            PN(1,npt) = log10(ND);
+            PN(2,npt) = 1/k * (log10(ND)-m);
             
             % ... Anpassen für elementare oder Mod. Miner
             if miner == 0 || miner == 1
@@ -818,11 +834,12 @@ methods
                 if miner == 1 % modifiziert
                     % ... Steigung anpassen bei elementarem Miner
                     k = 2*k - 1;
+                    m = PN(1,npt) - k * PN(2,npt);
                 end
-                % ... neuer Dauerfestigkeitswert bei 1/2
-                PN(2,npt) = PN(2,npt) + log10(0.5);
-                % ... neue Ecklastspeilzahl bei 1/2 Dauerfestigkeit
-                PN(1,npt) = PN(1,npt) + k *log10(0.5);
+                % ... neuer Dauerfestigkeitswert bei 1e9 Schwingspielen
+                npt = npt + 1;
+                PN(1,npt) = 9;
+                PN(2,npt) = 1/k * (9-m);
             end
         end % Ende bestimmen P-WL
         
@@ -832,11 +849,13 @@ methods
 %             fak =  nst^(1/b0);
             fak = 1;
             % ... WL
-            npt = 4;                % Anzahl Punkte auf WL
+            Nstuetz = [1,10,100,1000,10000,100000];            % Stützpunkte Wöhlerlinie
+            npt = length(Nstuetz);                   % Anzahl Punkte auf WL
             PN = zeros(2,npt);      % Speicher (1.Zeile = Ssp, 2.Zeile = P)
             for i = 1:npt
                 % ... Punkt N
-                N = ND^((i-1)/(npt-1));
+%                 N = ND^((i-1)/(npt-1));
+                N = Nstuetz(i);
                 % ... Punkt P  aus Gleitungswl
                 P = tf/G*(2*N*fak)^b0 + gf*(2*N*fak)^c0;
                 % ... Parallel verschieben WL in Lastrichtung
@@ -846,6 +865,15 @@ methods
                 PN(2,i) = log10(P);
             end
             
+            % ... Dauerfestigkeit mit Steigung aus Abschnitt 1e3<N<1e5
+            % Steigung & konstante ln(N) = k * ln(P) + m
+            k = (PN(1,npt) - PN(1,npt-1))/(PN(2,npt) - PN(2,npt-1));
+            m = PN(1,npt) - k * PN(2,npt);
+            % Dauerfestigkeit
+            npt = npt + 1;
+            PN(1,npt) = log10(ND);
+            PN(2,npt) = 1/k * (log10(ND)-m);
+
             % ... Anpassen für elementare oder Mod. Miner
             if miner == 0 || miner == 1
                 % ... Steigung letzter Punkt
@@ -853,11 +881,12 @@ methods
                 if miner == 1 % modifiziert
                     % ... Steigung anpassen bei elementarem Miner
                     k = 2*k - 1;
+                    m = PN(1,npt) - k * PN(2,npt);
                 end
-                % ... neuer Dauerfestigkeitswert bei 1/2
-                PN(2,npt) = PN(2,npt) + log10(0.5);
-                % ... neue Ecklastspeilzahl bei 1/2 Dauerfestigkeit
-                PN(1,npt) = PN(1,npt) + k *log10(0.5);
+                % ... neuer Dauerfestigkeitswert bei 1e9 Schwingspielen
+                npt = npt + 1;
+                PN(1,npt) = 9;
+                PN(2,npt) = 1/k * (9-m);
             end
         end % Ende bestimmen P-WL
         
@@ -945,7 +974,7 @@ methods
             % ... PFS
             PFS = gam_a*(1+k*snmax/sigF);
             % ... zielfunktion
-            error = PFS - gwl;
+            error = (PFS - gwl);
         end % Ende Zielfunktion       
         
         % ... Ableitung der Zielfunktion
@@ -954,15 +983,15 @@ methods
                 sf,ef,b,c,...
                 sigF,G,nu,nst)
             % ... Stützwirkung
-            fakg = nst^(1/b0);
-%             fakg = 1;% 
+%             fakg = nst^(1/b0);
+            fakg = 1;% 
             % ... GleitungsWL
             gwl = gf*(2*N*fakg)^c0 + tf/G*(2*N*fakg)^b0;
 %             gwl = nst * gwl;
             % ... angepasse DehnungsWL
             E = G * 2 * (1+nu);
-            fake = nst^(1/b);
-%             fake = 1;
+%             fake = nst^(1/b);
+            fake = 1;
             ewl = (1+nu)*sf/E*(2*N*fake)^b+1.5*ef*(2*N*fake)^c;
 %             ewl = nst * ewl;
             % ... Ableitung GleitungsWL
@@ -976,7 +1005,7 @@ methods
                       -(2*fake)^(-b)*b*(N)^(-b-1) * (gwl/ewl-1) ...
                       + (2*fake*N)^(-b) * (Diffgwl*ewl-gwl*Diffewl)/ewl^2);
             % ... Ableitung
-            Diff = DiffPFS - Diffgwl;
+            Diff = (DiffPFS - Diffgwl);
         end % Ende Zielfunktion  
         
         % ... Interpolation zwischen Gestaltänderungsergie- und

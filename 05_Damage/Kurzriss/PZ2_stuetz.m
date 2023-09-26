@@ -1124,7 +1124,7 @@ methods
     end % Ende Kurzrissmode II & III
     
     % ... Lebensdauerrechnung
-    function [DL,SSP] = lebensdauer(obj,P,varargin)
+    function [DL,SSP,PDam] = lebensdauer(obj,P,ndl,varargin)
         % Funktion rechnet Lebensdauern aus Schädigungsparametern
         %
         % INPUT:
@@ -1133,15 +1133,21 @@ methods
         %                      (2.Zeile) -> gezählte Schwingspiele
         %                      (3.Zeile) -> PZ Parameter
         %                      (4.Zeile) -> Durchlauf in dem Ssp gezählt wurde
+        % ndl            - Durchläufe der Lastfolge, die Simuliert
+        %                  wurden
         % varargin          - Variabler input für output datei
         %
         % OUTPUT:
         % DL             - Durchläufe
         % SSP            - Schwingspiele
+        % P              - Erweitert um 
+        %                  5. Zeile aktueller Schädigungsbeitrag
+        %                  6. Zeile akkumilierte Schädigung
         %__________________________________________________________________
         % -----------------------------------------------------------------
         % Durchläufe
-        ndl = ceil(max(P(4,:)));              % Anzahl Durchläufe
+%         ndl = ceil(max(P(4,:)));              % Anzahl Durchläufe
+        PDam = zeros(2,size(P,2));            % Speicher für Schädigung
         
         % -----------------------------------------------------------------
         % Anfangswerte Riss
@@ -1154,7 +1160,7 @@ methods
         
         % -------------------------------------------------------------------------
         % Organisiere Output
-        if nargin == 3
+        if nargin == 4
             % ... output erstellen
             outopt = 1;
             % ... Speicherzähler 
@@ -1193,7 +1199,7 @@ methods
             
             % ... lineare Schadensakkumulation
             [Dsum,Dakt] = obj.DamAkk(pz,obj.mJ,ND_pz(mode),PZD(mode),Dsum);
-            
+            PDam(:,i) = [Dakt;Dsum];
             % ... update RissLänge
             ai = ai + da*Dakt;
             ci = ci + dc(mode)*Dakt;
@@ -1245,7 +1251,7 @@ methods
                 
                 % ... lineare Schadensakkumulation
                 [Dsum,Dakt] = obj.DamAkk(pz,obj.mJ,ND_pz(mode),PZD(mode),Dsum);
-                
+                PDam(:,i) = [Dakt;Dsum];
                 % ... update RissLänge
                 ai = ai + da*Dakt;
                 ci = ci + dc(mode)*Dakt;
@@ -1957,7 +1963,10 @@ methods (Static)
             end
             
             % lineare Interpolation der öffnungsdehnung
-            if DATA(1,iop) - DATA(1,iop-1) ~= 0
+            if iop == io && DATA(1,iop) < sxop % Abfangen Bug keine Öffnungsdehnung gefunden -> Riss als offen betrachten
+                exop = DATA(7,iu);
+                iop = iu;
+            elseif DATA(1,iop) - DATA(1,iop-1) ~= 0
                 exop = (DATA(7,iop) - DATA(7,iop-1))/(DATA(1,iop) - DATA(1,iop-1)) ...
                     * (sxop - DATA(1,iop-1)) + DATA(7,iop-1);
             else
